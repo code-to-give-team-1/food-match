@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  flask:
+    build:
+      context: ./ml-service
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ml-service:/app
+    environment:
+      - FLASK_ENV=development
+
+  nextjs:
+    build:
+      context: ./food-match
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./food-match:/app
+    environment:
+      - NODE_ENV=development

@@ -1,0 +1,32 @@
+# need postgres
+services:
+  food-match:
+    build:
+      context: ./food-match
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-volume:/data
+  postgres:
+    image: postgis/postgis:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=activesg
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+
+volumes:
+  postgres-volume:
+  redis-volume:

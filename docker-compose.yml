@@ -1,15 +1,15 @@
 # need postgres
 services:
-  food-match:
-    build:
-      context: ./food-match
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-  ml-service:
-    build:
-      context: ./ml-service
-      dockerfile: Dockerfile
+  # food-match:
+  #   build:
+  #     context: ./food-match
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  # ml-service:
+  #   build:
+  #     context: ./ml-service
+  #     dockerfile: Dockerfile
   redis:
     image: redis:latest
     ports:

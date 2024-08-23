@@ -54,10 +54,10 @@ export const EmailInput: React.FC<EmailInputProps> = ({ onSuccess }) => {
           isReadOnly={loginMutation.isLoading}
         >
           <FormLabel>
-            Log in with a .gov.sg or whitelisted email address
+            Log in with your email address to get a one-time password (OTP)
           </FormLabel>
           <Input
-            placeholder="e.g. jane@open.gov.sg"
+            placeholder="e.g. johndoe@gmail.com"
             autoFocus
             {...register("email")}
           />

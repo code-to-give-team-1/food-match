@@ -1,4 +1,6 @@
 import { router, publicProcedure } from "../trpc";
+import { meRouter } from "./me/me.router";
+import { authRouter } from "./auth/auth.router";
 
 export const appRouter = router({
   userList: publicProcedure.query(async ({ ctx }) => {
@@ -6,6 +8,8 @@ export const appRouter = router({
     const users = await ctx.prisma.user.findMany();
     return users;
   }),
+  me: meRouter,
+  auth: authRouter,
 });
 
 // Export type router type signature,

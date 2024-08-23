@@ -7,4 +7,8 @@ export const authRouter = router({
     ctx.session?.destroy();
     return { isLoggedIn: false };
   }),
+  login: publicProcedure.mutation(async ({ ctx }) => {
+    await ctx.session!.save();
+    return { isLoggedIn: true };
+  }),
 });

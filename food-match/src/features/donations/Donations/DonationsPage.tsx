@@ -10,10 +10,11 @@ import {
 // TODO: Replace mock data with real data
 import { donationsData } from './mockData'
 import { BeneficiarySearch } from './BeneficiarySearch'
+import { useRouter } from 'next/router'
 
 export const DonationsPage = () => {
   const [desktop] = useMediaQuery('(min-width: 600px)')
-
+  const router = useRouter()
   return (
     <Stack p={20} gap={10}>
       {/* Search inputs */}
@@ -32,6 +33,8 @@ export const DonationsPage = () => {
                 borderRadius="15px"
                 overflow="hidden"
                 maxH={'300px'}
+                onClick={() => router.push(`/donation/${donation.name}`)}
+                cursor={'pointer'}
               >
                 <Image
                   src={donation.imageUrls[0]}

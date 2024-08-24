@@ -24,6 +24,7 @@ export const BeneficiarySearch = () => {
           borderRadius={'15px'}
           h={'25px'}
           flex={6}
+          autoFocus
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Try: 'Meat and vegetables' "
           value={query}
@@ -32,8 +33,7 @@ export const BeneficiarySearch = () => {
         <Select
           placeholder="Preferences"
           borderRadius={'15px'}
-          h={'25px'}
-          w={'100%'}
+          h={'30px'}
           flex={1}
           onChange={(e) => setPreferences(e.target.value)}
           value={preferences}

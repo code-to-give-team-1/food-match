@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Text,
   IconButton,
@@ -10,15 +9,13 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   useMediaQuery,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { HamburgerIcon, CloseIcon, ArrowDownIcon } from '@chakra-ui/icons'
-import { useLoginState } from '~/features/auth'
+import { useMe } from '~/features/me/api'
 
 const Links = ['Donations', 'Statistics']
 
@@ -52,7 +49,7 @@ const NavLink = (props: Props) => {
 export const Navbar = () => {
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { removeLoginStateFlag } = useLoginState()
+  const { me, logout } = useMe()
 
   return (
     <Box bg={'#191919'} color={'white'} p={20}>
@@ -95,7 +92,7 @@ export const Navbar = () => {
                   height={25}
                   layout="intrinsic" // Ensure proper sizing and layout
                 />
-                <Text color={'white'}>Adam Tan</Text>
+                <Text color={'white'}>{me.name}</Text>
                 <ArrowDownIcon color={'white'} />
               </HStack>
             </MenuButton>
@@ -107,7 +104,7 @@ export const Navbar = () => {
                 p={10}
                 w="100px"
                 backgroundColor={'black'}
-                onClick={() => removeLoginStateFlag()}
+                onClick={() => logout()}
                 cursor={'pointer'}
               >
                 Logout

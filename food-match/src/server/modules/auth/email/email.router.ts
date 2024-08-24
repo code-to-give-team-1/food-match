@@ -78,15 +78,12 @@ export const emailSessionRouter = router({
         throw e
       }
 
-      const emailName = email.split('@')[0] ?? 'unknown'
-
       const user = await ctx.prisma.user.upsert({
         where: { email },
         update: {},
         create: {
           email,
           emailVerified: new Date(),
-          name: emailName,
         },
         select: defaultMeSelect,
       })

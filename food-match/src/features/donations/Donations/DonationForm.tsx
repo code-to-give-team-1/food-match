@@ -11,6 +11,9 @@ import { useZodForm } from '~/lib/form'
 import { donationSchema } from '~/schemas/donation/donation'
 import { trpc } from '~/utils/trpc'
 import { useRouter } from 'next/router'
+import { useMe } from '~/features/me/api'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export const DonationForm = () => {
   // Use Zod + React Hook Form to enforce error checking and submission
@@ -18,14 +21,24 @@ export const DonationForm = () => {
     register,
     handleSubmit,
     setError,
+    watch,
+
     clearErrors,
+    setValue,
+    getValues,
+
     formState: { errors },
   } = useZodForm({
     schema: donationSchema,
     mode: 'onSubmit',
   })
   const router = useRouter()
+  const watchExpiry = watch('expiry')
 
+  const { me } = useMe()
+  console.log(me)
+  console.log(me.donor)
+  // console.log(me)
   // Use mutations to create an entry in Postgres
   const createDonationMutation = trpc.donation.createDonation.useMutation({
     // onSuccess actions can be put here
@@ -39,16 +52,16 @@ export const DonationForm = () => {
     // TODO: Remove when able to process all fields
     const processedData = {
       ...data,
-      // Example: add or modify fields as needed
       tagIds: [],
       imageIds: [],
       passCode: undefined,
-      beneficiaryId: '',
-      donorId: 'testDonorId',
+      beneficiaryId: 'none',
+      donorId: me.id,
+      donor: me.donor,
     }
 
-    return createDonationMutation.mutate(data)
-  })
+    return createDonationMutation.mutate(processedData)
+  }, console.error)
 
   // Abstracted form input
   // TODO: type validation
@@ -94,14 +107,24 @@ export const DonationForm = () => {
           isRequired
         />
         {/* Expiry */}
-        <FormInput
+        <FormControl
           id="expiry"
-          label="When will it expire? (indicate in YYYY-MM-DD format)"
-          placeholder="e.g. 2024-10-30"
-          register={register}
-          errors={errors}
           isRequired
-        />
+          // isInvalid={!!errors.dob}
+          // isReadOnly={updateMeMutation.isLoading}
+          // w="20rem"
+        >
+          <FormLabel>Expiry Date</FormLabel>
+          <DatePicker
+            selected={watchExpiry}
+            onChange={(date) => setValue('expiry', date)}
+            dateFormat="dd/MM/yyyy"
+            showYearDropdown
+            showMonthDropdown
+            dropdownMode="select"
+          />
+          <FormErrorMessage>{errors.expiry?.message}</FormErrorMessage>
+        </FormControl>
         {/* Quantity */}
         <FormInput
           id="quantity"
@@ -111,11 +134,14 @@ export const DonationForm = () => {
           errors={errors}
           isRequired
         />
-
+        {/* Submit */}
         <Button
+          onClick={async () => {
+            console.log('test')
+            await handleCreateDonation()
+          }}
           size="xs"
           height="2.75rem"
-          type="submit"
           bgColor={'black'}
           color="white"
           borderRadius={'15px'}

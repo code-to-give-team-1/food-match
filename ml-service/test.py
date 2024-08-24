@@ -32,7 +32,7 @@ def vectorize_query(query):
 def save_vector_to_db(donation_id, vector):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE donations SET vector = %s WHERE id = %s", (vector, donation_id))
+    cursor.execute("UPDATE Donation SET vector = %s WHERE id = %s", (vector, donation_id))
     conn.commit()
     cursor.close()
     conn.close()
@@ -45,7 +45,7 @@ def vectorize_donation():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT name FROM donations WHERE id = %s", (donation_id,))
+    cursor.execute("SELECT name FROM Donation WHERE id = %s", (donation_id,))
     result = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -68,7 +68,7 @@ def search_donations():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, vector FROM donations WHERE vector IS NOT NULL")
+    cursor.execute("SELECT id, vector FROM Donation WHERE vector IS NOT NULL")
     all_donations = cursor.fetchall()
     cursor.close()
     conn.close()

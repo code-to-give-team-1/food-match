@@ -16,6 +16,7 @@ import {
 import Image from 'next/image'
 import { HamburgerIcon, CloseIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import { useMe } from '~/features/me/api'
+import { useRouter } from 'next/router'
 
 const Links = ['Donations', 'Statistics']
 
@@ -50,6 +51,7 @@ export const Navbar = () => {
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { me, logout } = useMe()
+  const router = useRouter()
 
   return (
     <Box bg={'#191919'} color={'white'} p={20}>
@@ -97,8 +99,13 @@ export const Navbar = () => {
               </HStack>
             </MenuButton>
             <MenuList ml={20}>
-              <MenuItem p={10} backgroundColor={'black'} cursor={'pointer'}>
-                Account
+              <MenuItem
+                p={10}
+                backgroundColor={'black'}
+                cursor={'pointer'}
+                onClick={() => router.push('/profile')}
+              >
+                Profile
               </MenuItem>
               <MenuItem
                 p={10}

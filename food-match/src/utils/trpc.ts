@@ -27,11 +27,9 @@ const NON_RETRYABLE_ERROR_CODES: Set<TRPC_ERROR_CODE_KEY> = new Set([
 export const custom401Link: TRPCLink<AppRouter> = () => {
   // here we just got initialized in the app - this happens once per app
   // useful for storing cache for instance
-  console.log('custom401Link init')
   return ({ next, op }) => {
     // this is when passing the result to the next link
     // each link needs to return an observable which propagates results
-    console.log('custom401Link next')
     return observable((observer) => {
       const unsubscribe = next(op).subscribe({
         next(value) {
@@ -48,6 +46,7 @@ export const custom401Link: TRPCLink<AppRouter> = () => {
             // handling, and the /api/[trpc] API route as a form of server side auth validity handling.
             window.localStorage.removeItem(LOGGED_IN_KEY)
             window.dispatchEvent(new Event('local-storage'))
+            window.location.href = '/sign-in'
           }
         },
         complete() {

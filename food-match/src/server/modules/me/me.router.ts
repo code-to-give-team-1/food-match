@@ -38,17 +38,20 @@ export const meRouter = router({
     .input(updateMeSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        return await ctx.prisma.user.update({
+        await ctx.prisma.user.update({
           where: { id: ctx.user.id },
-          data: input,
-          select: defaultMeSelect,
+          data: {
+            name: input.name,
+            dob: input.dob,
+            mobile: input.mobile,
+            email: input.email,
+          },
         })
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === 'P2002') {
             ctx.logger.info('Username conflict', {
               userId: ctx.user.id,
-              chosen: input.username,
               current: ctx.user.name,
             })
 

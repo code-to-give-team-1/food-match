@@ -7,14 +7,17 @@ import { protectedProcedure, router } from '~/server/trpc'
 import { updateMeSchema } from '~/schemas/me'
 import { TRPCError } from '@trpc/server'
 import { Prisma } from '@prisma/client'
-import { defaultMeSelect } from './me.select'
+import { defaultMeSelect, getUserById } from './me.select'
+import { getIsProfileComplete } from './me.util'
 
 export const meRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findUniqueOrThrow({
-      where: { id: ctx.user.id },
-      select: defaultMeSelect,
-    })
+    const user = await getUserById(ctx.prisma, ctx.user.id)
+    const isProfileComplete = getIsProfileComplete(user)
+    return {
+      ...user,
+      isProfileComplete,
+    }
   }),
   updateAvatar: protectedProcedure
     .input(

@@ -10,6 +10,16 @@ services:
   #   build:
   #     context: ./ml-service
   #     dockerfile: Dockerfile
+  #   ports:
+  #     - 5000:5000
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - DATABASE_HOST=postgres
+  #     - DATABASE_NAME=food-match
+  #     - DATABASE_USER=root
+  #     - DATABASE_PASSWORD=root
+  #   depends_on:
+  #     - postgres
   redis:
     image: redis:latest
     ports:

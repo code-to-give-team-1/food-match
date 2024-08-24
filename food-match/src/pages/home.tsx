@@ -1,6 +1,7 @@
-import { Text } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useLoginState } from '~/features/auth'
+import { Navbar } from '~/features/common/components'
 
 const Home = () => {
   const { hasLoginStateFlag } = useLoginState()
@@ -8,6 +9,11 @@ const Home = () => {
   if (!hasLoginStateFlag) {
     void router.push('/sign-in')
   }
-  return <Text>Welcome to Food Match! This is the home page.</Text>
+  return (
+    <Box m={0} w={'100%'}>
+      <Navbar />
+      Donations go here
+    </Box>
+  )
 }
 export default Home

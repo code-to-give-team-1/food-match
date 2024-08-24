@@ -46,7 +46,7 @@ export const EmailInput: React.FC<EmailInputProps> = ({ onSuccess }) => {
 
   return (
     <form onSubmit={handleSignIn} noValidate>
-      <Stack spacing="1rem">
+      <Stack spacing="1rem" width="full">
         <FormControl
           id="email"
           isRequired
@@ -57,8 +57,9 @@ export const EmailInput: React.FC<EmailInputProps> = ({ onSuccess }) => {
             Log in with your email address to get a one-time password (OTP)
           </FormLabel>
           <Input
-            borderRadius={'15px'}
-            width={'100%'}
+            px="1rem"
+            borderRadius={'10px'}
+            width="calc(100% - 2rem)"
             height={'20px'}
             placeholder="e.g. johndoe@gmail.com"
             autoFocus

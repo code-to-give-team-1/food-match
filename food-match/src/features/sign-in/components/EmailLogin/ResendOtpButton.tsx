@@ -1,7 +1,7 @@
-import { Text, Button, type ButtonProps } from "@chakra-ui/react";
+import { Text, Button, type ButtonProps } from '@chakra-ui/react'
 
 export interface ResendOtpButtonProps extends ButtonProps {
-  timer: number;
+  timer: number
 }
 
 export const ResendOtpButton = ({
@@ -12,8 +12,8 @@ export const ResendOtpButton = ({
     <Button type="button" variant="link" size="xs" {...buttonProps}>
       Resend OTP
       <Text as="span" data-chromatic="ignore">
-        {timer > 0 && ` in ${timer}s`}
+        {timer > 0 && ` in ${timer}s `}
       </Text>
     </Button>
-  );
-};
+  )
+}

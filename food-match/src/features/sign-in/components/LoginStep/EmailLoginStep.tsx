@@ -1,10 +1,10 @@
-import { Icon, Stack, Button } from "@chakra-ui/react";
-import { BiLeftArrowAlt } from "react-icons/bi";
-import { EmailLoginForm } from "../EmailLogin";
-import { useSignInContext } from "../SignInContext";
+import { Icon, Stack, Button } from '@chakra-ui/react'
+import { BiLeftArrowAlt } from 'react-icons/bi'
+import { EmailLoginForm } from '../EmailLogin'
+import { useSignInContext } from '../SignInContext'
 
 export const EmailLoginStep = (): JSX.Element => {
-  const { backToInitial } = useSignInContext();
+  const { backToInitial } = useSignInContext()
 
   return (
     <Stack w="100%" gap="1rem">
@@ -13,10 +13,15 @@ export const EmailLoginStep = (): JSX.Element => {
         variant="link"
         size="xs"
         onClick={backToInitial}
+        bgColor={'black'}
+        color={'white'}
+        borderRadius={'15px'}
+        h={'20px'}
+        border={'none'}
       >
         Back
       </Button>
       <EmailLoginForm />
     </Stack>
-  );
-};
+  )
+}

@@ -14,6 +14,30 @@ pnpm dev
 bun dev
 ```
 
+## Troubleshooting
+
+1. Check whether dependencies and Prisma is set up.
+
+```bash
+pnpm install
+pnpm run generate
+npx prisma migrate dev
+```
+
+2. Kill any overlapping processes at port 5432
+
+```bash
+# Linux
+lsof -i 5432
+
+# Windows
+netstat -ano | findstr :5432
+```
+
+3. For development, if you need the OTP, check the console log for the OTP in the Sendgrid request body: <b>xxx<b>
+
+## Starting Up
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.

@@ -67,7 +67,7 @@ export const Navbar = () => {
         />
 
         <HStack spacing={8} alignItems={'center'}>
-          <Box>MATCH</Box>
+          <Box onClick={() => router.push('/home')}>MATCH</Box>
           <HStack as={'nav'} spacing={10} display={desktop ? 'flex' : 'none'}>
             {Links.map((link) => (
               <NavLink key={link}>{link}</NavLink>

@@ -1,3 +1,3 @@
 export enum AccountProvider {
-  Email = "email",
+  Email = 'email',
 }

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client'
 
 /**
  * Default selector for when retrieving logged in user.
@@ -11,4 +11,4 @@ export const defaultMeSelect = Prisma.validator<Prisma.UserSelect>()({
   emailVerified: true,
   image: true,
   name: true,
-});
+})

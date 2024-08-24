@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext } from 'react'
 
-import { EnvContext, type EnvContextReturn } from "~/components/AppProviders";
+import { EnvContext, type EnvContextReturn } from '~/components/AppProviders'
 
 export const useEnv = (): EnvContextReturn => {
-  const context = useContext(EnvContext);
+  const context = useContext(EnvContext)
   if (context === undefined) {
-    throw new Error("useEnv must be used within a EnvProvider");
+    throw new Error('useEnv must be used within a EnvProvider')
   }
-  return context;
-};
+  return context
+}

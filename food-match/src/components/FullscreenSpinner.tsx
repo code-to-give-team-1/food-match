@@ -1,17 +1,17 @@
-import { Container, Flex, VisuallyHidden } from "@chakra-ui/react";
-import React from "react";
+import { Container, Flex, VisuallyHidden } from '@chakra-ui/react'
+import React from 'react'
 
 const Spinner = ({
-  color = "inherit",
-  label = "Loading...",
+  color = 'inherit',
+  label = 'Loading...',
   ...flexProps
 }): JSX.Element => {
   return (
     <Flex color={color} align="center" {...flexProps}>
       {label && <VisuallyHidden>{label}</VisuallyHidden>}
     </Flex>
-  );
-};
+  )
+}
 
 export const FullscreenSpinner = (): JSX.Element => {
   return (
@@ -23,5 +23,5 @@ export const FullscreenSpinner = (): JSX.Element => {
     >
       <Spinner color="interaction.main.default" fontSize="2rem" />
     </Container>
-  );
-};
+  )
+}

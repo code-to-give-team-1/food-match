@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 /**
  * Specify your client-side environment variables schema here. This way you can ensure the app isn't
@@ -7,9 +7,9 @@ import { z } from "zod";
 const client = z.object({
   // NEXT_PUBLIC_ENABLE_STORAGE: coerceBoolean.default('false'),
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
-  NEXT_PUBLIC_APP_NAME: z.string().default("food-match"),
-  NEXT_PUBLIC_APP_VERSION: z.string().default("0.0.0"),
-});
+  NEXT_PUBLIC_APP_NAME: z.string().default('food-match'),
+  NEXT_PUBLIC_APP_VERSION: z.string().default('0.0.0'),
+})
 
 /**
  * Specify your server-side environment variables schema here. This way you can ensure the app isn't
@@ -18,7 +18,7 @@ const client = z.object({
 const server = z
   .object({
     DATABASE_URL: z.string().url(),
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
     OTP_EXPIRY: z.coerce.number().positive().optional().default(600),
     SENDGRID_API_KEY: z.string().optional(),
     SENDGRID_FROM_ADDRESS: z.union([
@@ -29,9 +29,9 @@ const server = z
   })
   .merge(client)
   .refine((val) => !(val.SENDGRID_API_KEY && !val.SENDGRID_FROM_ADDRESS), {
-    message: "SENDGRID_FROM_ADDRESS is required when SENDGRID_API_KEY is set",
-    path: ["SENDGRID_FROM_ADDRESS"],
-  });
+    message: 'SENDGRID_FROM_ADDRESS is required when SENDGRID_API_KEY is set',
+    path: ['SENDGRID_FROM_ADDRESS'],
+  })
 
 /**
  * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
@@ -55,7 +55,7 @@ const processEnv = {
     process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA,
   // NEXT_PUBLIC_ENABLE_STORAGE: process.env.NEXT_PUBLIC_ENABLE_STORAGE,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-};
+}
 
 // Don't touch the part below
 // --------------------------
@@ -64,52 +64,52 @@ const processEnv = {
 /** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
 
 // @ts-expect-error Types are wonky from refinement
-let env = /** @type {MergedOutput} */ (process.env);
+let env = /** @type {MergedOutput} */ (process.env)
 
 if (!!process.env.SKIP_ENV_VALIDATION == false) {
-  const isServer = typeof window === "undefined";
+  const isServer = typeof window === 'undefined'
 
   const parsed = /** @type {MergedSafeParseReturn} */ (
     isServer
       ? server.safeParse(processEnv) // on server we can validate all env vars
       : client.safeParse(processEnv) // on client we can only validate the ones that are exposed
-  );
+  )
 
   if (parsed.success === false) {
     console.error(
-      "❌ Invalid environment variables:",
+      '❌ Invalid environment variables:',
       parsed.error.flatten().fieldErrors,
-    );
-    throw new Error("Invalid environment variables");
+    )
+    throw new Error('Invalid environment variables')
   }
 
   env = new Proxy(parsed.data, {
     get(target, prop) {
-      if (typeof prop !== "string") return undefined;
+      if (typeof prop !== 'string') return undefined
       // Throw a descriptive error if a server-side env var is accessed on the client
       // Otherwise it would just be returning `undefined` and be annoying to debug
-      if (!isServer && !prop.startsWith("NEXT_PUBLIC_"))
+      if (!isServer && !prop.startsWith('NEXT_PUBLIC_'))
         throw new Error(
-          process.env.NODE_ENV === "production"
-            ? "❌ Attempted to access a server-side environment variable on the client"
+          process.env.NODE_ENV === 'production'
+            ? '❌ Attempted to access a server-side environment variable on the client'
             : `❌ Attempted to access server-side environment variable '${prop}' on the client`,
-        );
-      return target[/** @type {keyof typeof target} */ (prop)];
+        )
+      return target[/** @type {keyof typeof target} */ (prop)]
     },
-  });
+  })
 } else if (process.env.STORYBOOK) {
   const parsed = client
     .partial()
-    .safeParse(JSON.parse(process.env.STORYBOOK_ENVIRONMENT ?? "{}"));
+    .safeParse(JSON.parse(process.env.STORYBOOK_ENVIRONMENT ?? '{}'))
   if (parsed.success === false) {
     console.error(
-      "❌ Invalid environment variables:",
+      '❌ Invalid environment variables:',
       parsed.error.flatten().fieldErrors,
-    );
-    throw new Error("Invalid environment variables");
+    )
+    throw new Error('Invalid environment variables')
   }
   // @ts-expect-error Injection of environment variables is optional
-  env = parsed.data;
+  env = parsed.data
 }
 
-export { env };
+export { env }

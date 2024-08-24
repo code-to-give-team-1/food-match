@@ -90,4 +90,4 @@ def find_similar_donations(query_vector, all_donations):
     return sorted(similarities, key=lambda x: x[1], reverse=True)[:10]
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)

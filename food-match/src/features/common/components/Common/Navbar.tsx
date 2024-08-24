@@ -17,16 +17,30 @@ import Image from 'next/image'
 import { HamburgerIcon, CloseIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import { useMe } from '~/features/me/api'
 import { useRouter } from 'next/router'
+import { useLoginState } from '~/features/auth'
+import { link } from 'fs'
 
-const Links = ['Donations', 'Statistics']
+const Links: LinkProp[] = [
+  {
+    name: 'Donations',
+    href: '/home',
+  },
+  {
+    name: 'Statistics',
+    href: '#',
+  },
+  {
+    name: 'Create Donation',
+    href: '/create-donation',
+  },
+]
 
-interface Props {
-  children: React.ReactNode
+interface LinkProp {
+  name: string
+  href: string
 }
 
-const NavLink = (props: Props) => {
-  const { children } = props
-
+const NavLink = ({ name, href }: LinkProp) => {
   return (
     <Box
       ml={20}
@@ -39,10 +53,10 @@ const NavLink = (props: Props) => {
         bg: 'black',
       }}
       borderRadius={'10px'}
-      href={'#'}
+      href={href}
       color={'white'}
     >
-      {children}
+      {name}
     </Box>
   )
 }
@@ -69,8 +83,8 @@ export const Navbar = () => {
         <HStack spacing={8} alignItems={'center'}>
           <Box onClick={() => router.push('/home')}>MATCH</Box>
           <HStack as={'nav'} spacing={10} display={desktop ? 'flex' : 'none'}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+            {Links.map(({ name, href }) => (
+              <NavLink key={name} name={name} href={href} />
             ))}
           </HStack>
         </HStack>
@@ -124,8 +138,8 @@ export const Navbar = () => {
       {isOpen ? (
         <Box pt={10} display={desktop ? 'none' : ''}>
           <Stack as={'nav'} spacing={4}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+            {Links.map(({ name, href }) => (
+              <NavLink name={name} href={href}></NavLink>
             ))}
           </Stack>
         </Box>

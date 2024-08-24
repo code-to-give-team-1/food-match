@@ -1,6 +1,7 @@
 import { router, publicProcedure } from '../trpc'
 import { meRouter } from './me/me.router'
 import { authRouter } from './auth/auth.router'
+import { donationRouter } from './donation/donation.router'
 
 export const appRouter = router({
   userList: publicProcedure.query(async ({ ctx }) => {
@@ -10,6 +11,7 @@ export const appRouter = router({
   }),
   me: meRouter,
   auth: authRouter,
+  donation: donationRouter,
 })
 
 // Export type router type signature,

@@ -85,7 +85,7 @@ export const DonationForm = () => {
 
   return (
     <form onSubmit={handleCreateDonation} noValidate>
-      <Stack spacing="1rem">
+      <Stack w={'100%'} align={'center'} spacing="1rem">
         {/* Item Name */}
         <FormInput
           id="name"

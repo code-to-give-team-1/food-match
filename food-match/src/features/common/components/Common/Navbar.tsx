@@ -81,7 +81,13 @@ export const Navbar = () => {
         />
 
         <HStack spacing={8} alignItems={'center'}>
-          <Box onClick={() => router.push('/home')}>MATCH</Box>
+          <Image
+            src={'/images/main_page_logo.png'}
+            width={70}
+            height={25}
+            alt="Logo"
+            onClick={() => router.push('/home')}
+          />
           <HStack as={'nav'} spacing={10} display={desktop ? 'flex' : 'none'}>
             {Links.map(({ name, href }) => (
               <NavLink key={name} name={name} href={href} />
@@ -112,7 +118,7 @@ export const Navbar = () => {
                 <ArrowDownIcon color={'white'} />
               </HStack>
             </MenuButton>
-            <MenuList ml={20}>
+            <MenuList ml={20} zIndex={9999}>
               <MenuItem
                 p={10}
                 backgroundColor={'black'}

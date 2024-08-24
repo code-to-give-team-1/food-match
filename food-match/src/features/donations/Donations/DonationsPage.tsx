@@ -3,21 +3,26 @@ import {
   Grid,
   GridItem,
   Image,
+  Stack,
   Text,
   useMediaQuery,
 } from '@chakra-ui/react'
+// TODO: Replace mock data with real data
 import { donationsData } from './mockData'
+import { BeneficiarySearch } from './BeneficiarySearch'
 
 export const DonationsPage = () => {
   const [desktop] = useMediaQuery('(min-width: 600px)')
-  // TODO: Replace mock data with real data
 
   return (
-    <Box p={10}>
+    <Stack p={20} gap={10}>
+      {/* Search inputs */}
+      {/* Results of data pulled from Postgres */}
+      <BeneficiarySearch />
       <Grid
         w={'100%'}
         templateColumns={desktop ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}
-        gap={6}
+        gap={20}
       >
         {donationsData.map((donation, index) => {
           return (
@@ -47,6 +52,6 @@ export const DonationsPage = () => {
           )
         })}
       </Grid>
-    </Box>
+    </Stack>
   )
 }

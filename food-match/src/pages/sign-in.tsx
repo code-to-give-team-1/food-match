@@ -15,6 +15,7 @@ export const SignIn = (): JSX.Element => {
       {/* Login UI */}
       <Flex
         flexDir={desktop ? 'row' : 'column'}
+        bg="#f1f1f1"
         w="100%"
         h="100vh"
         justifyContent={'center'}

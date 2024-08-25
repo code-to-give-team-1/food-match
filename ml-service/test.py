@@ -4,6 +4,7 @@ import numpy as np
 import requests
 import psycopg2
 import os
+import logging
 
 app = Flask(__name__)
 
@@ -75,7 +76,6 @@ def search_donations():
 
     # Prepare donation data
     all_donations = [{'id': donation[0], 'vector': np.array(donation[1])} for donation in all_donations]
-
     # Find similar donations
     top_donations = find_similar_donations(query_vector, all_donations)
 

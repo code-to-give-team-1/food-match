@@ -54,7 +54,7 @@ async function main() {
   }
 
   // create donations
-  await prisma.donation.createMany({
+  const donations = await prisma.donation.createManyAndReturn({
     data: [
       {
         name: 'Vegan Pizza',
@@ -106,7 +106,23 @@ async function main() {
     ],
   })
 
-  console.log('Created donations')
+  // vectorize the donations
+  for (const donation of donations) {
+    const result = await fetch('http://localhost:5001/vectorize_donation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        donationId: donation.id,
+      }),
+    })
+
+    if (!result.ok) {
+      console.error('Failed to vectorize donation')
+      throw new Error('Failed to vectorize donation')
+    }
+  }
 }
 
 main()

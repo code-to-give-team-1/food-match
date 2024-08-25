@@ -57,10 +57,8 @@ export const EmailInput: React.FC<EmailInputProps> = ({ onSuccess }) => {
             Log in with your email address to get a one-time password (OTP)
           </FormLabel>
           <Input
-            px="1rem"
             borderRadius={'10px'}
-            width="calc(100% - 2rem)"
-            height={'20px'}
+            width="100%"
             placeholder="e.g. johndoe@gmail.com"
             autoFocus
             {...register('email')}

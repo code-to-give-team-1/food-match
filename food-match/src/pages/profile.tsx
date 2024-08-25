@@ -7,6 +7,7 @@ import {
   Input,
   FormErrorMessage,
   Button,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import { useZodForm } from '~/lib/form'
 import { updateMeSchema } from '~/schemas/me'
@@ -14,9 +15,12 @@ import { trpc } from '~/utils/trpc'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Navbar } from '~/features/common/components'
+import { useRouter } from 'next/router'
 
 export const Profile = () => {
   const { me } = useMe()
+  const [desktop] = useMediaQuery('(min-width: 600px)')
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -38,7 +42,9 @@ export const Profile = () => {
   const watchDob = watch('dob')
 
   const updateMeMutation = trpc.me.update.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      router.push('/home')
+    },
     onError: (error) => {
       setError('name', { message: error.message })
     },
@@ -62,15 +68,13 @@ export const Profile = () => {
           isRequired
           isInvalid={!!errors.name}
           isReadOnly={updateMeMutation.isLoading}
-          w="20rem"
+          w={desktop ? '50%' : '80%'}
         >
           <FormLabel>Name</FormLabel>
           <Input
             {...register('name')}
             placeholder="Name"
             borderRadius={'15px'}
-            textIndent={'0.5rem'}
-            h="1rem"
             w="100%"
           />
           <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
@@ -80,7 +84,7 @@ export const Profile = () => {
           isRequired
           isInvalid={!!errors.dob}
           isReadOnly={updateMeMutation.isLoading}
-          w="20rem"
+          w={desktop ? '50%' : '80%'}
         >
           <FormLabel>Date of Birth</FormLabel>
           <DatePicker
@@ -98,15 +102,13 @@ export const Profile = () => {
           isRequired
           isInvalid={!!errors.mobile}
           isReadOnly={updateMeMutation.isLoading}
-          w="20rem"
+          w={desktop ? '50%' : '80%'}
         >
           <FormLabel>Mobile</FormLabel>
           <Input
             {...register('mobile')}
             placeholder="Mobile"
             borderRadius={'15px'}
-            textIndent={'0.5rem'}
-            h="1rem"
             w="100%"
           />
           <FormErrorMessage>{errors.mobile?.message}</FormErrorMessage>
@@ -116,15 +118,13 @@ export const Profile = () => {
           isRequired
           isInvalid={!!errors.email}
           isReadOnly={updateMeMutation.isLoading}
-          w="20rem"
+          w={desktop ? '50%' : '80%'}
         >
           <FormLabel>Email</FormLabel>
           <Input
             {...register('email')}
             placeholder="Email"
             borderRadius={'15px'}
-            textIndent={'0.5rem'}
-            h="1rem"
             w="100%"
           />
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -138,8 +138,7 @@ export const Profile = () => {
           bgColor={'black'}
           color="white"
           borderRadius={'15px'}
-          h="2rem"
-          w="20rem"
+          w={desktop ? '50%' : '80%'}
         >
           Update
         </Button>

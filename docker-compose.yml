@@ -35,13 +35,6 @@ services:
       - POSTGRES_PASSWORD=root
     volumes:
       - postgres-volume:/var/lib/postgresql/data
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "80:80"
 
 volumes:
   postgres-volume:

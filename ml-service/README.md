@@ -1,5 +1,6 @@
 ## Setup
 
+Use python 3.8
 ```
 python3 -m venv venv
 source venv/bin/activate

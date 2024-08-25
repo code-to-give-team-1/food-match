@@ -41,6 +41,7 @@ export const DonationsPage = () => {
         gap="2rem"
       >
         {data.map((donation, index) => {
+          if (!donation) return null
           return (
             <GridItem key={index} w={'100%'} h={'auto'}>
               <Box

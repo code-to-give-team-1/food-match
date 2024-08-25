@@ -1,10 +1,12 @@
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   Stack,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useZodForm } from '~/lib/form'
@@ -35,6 +37,7 @@ export const DonationForm = () => {
   })
   const router = useRouter()
   const watchExpiry = watch('expiry')
+  const [desktop] = useMediaQuery('(min-width: 600px)')
 
   const { me } = useMe()
   const uploadImagesMutation = useUploadImagesMutation()
@@ -83,12 +86,10 @@ export const DonationForm = () => {
       errors: FieldErrors<z.infer<typeof clientAddDonationSchema>>
       isRequired?: boolean
     }) => (
-      <FormControl id={id} isRequired={isRequired} isInvalid={!!errors[id]}>
+      <FormControl id={id} isRequired={isRequired} isInvalid={!!errors[id]} justifyContent="center">
         <FormLabel marginBottom="5px">{label}</FormLabel>
         <Input
           borderRadius="15px"
-          width="200px"
-          height="20px"
           placeholder={placeholder}
           {...register(id)}
         />
@@ -102,9 +103,10 @@ export const DonationForm = () => {
   FormInput.displayName = 'FormInput'
 
   return (
+    <Box alignItems={'center'} justifyContent="center">
     <form onSubmit={handleCreateDonation} noValidate>
-      <Stack w={'100%'} align={'center'} spacing="1rem">
-        {/* Item Name */}
+      <Stack w={desktop ? '50%' : '80%'} alignItems={'center'} spacing="1rem" justifyContent="center">
+      {/* Item Name */}
         <FormInput
           id="name"
           label="Name of item to donate"
@@ -178,5 +180,6 @@ export const DonationForm = () => {
         </Button>
       </Stack>
     </form>
+    </Box>
   )
 }

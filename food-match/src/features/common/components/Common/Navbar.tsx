@@ -142,22 +142,15 @@ export const Navbar = () => {
                 <ArrowDownIcon color={'white'} />
               </HStack>
             </MenuButton>
-            <MenuList ml={20} zIndex={9999}>
+            <MenuList zIndex={9999} bg="black">
               <MenuItem
-                p={10}
-                backgroundColor={'black'}
                 cursor={'pointer'}
+                bg="black"
                 onClick={() => router.push('/profile')}
               >
                 Profile
               </MenuItem>
-              <MenuItem
-                p={10}
-                w="100px"
-                backgroundColor={'black'}
-                onClick={() => logout()}
-                cursor={'pointer'}
-              >
+              <MenuItem bg="black" onClick={() => logout()} cursor={'pointer'}>
                 Logout
               </MenuItem>
             </MenuList>

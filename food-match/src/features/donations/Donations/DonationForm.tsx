@@ -13,8 +13,7 @@ import { clientAddDonationSchema } from '~/schemas/donation/donation'
 import { trpc } from '~/utils/trpc'
 import { useRouter } from 'next/router'
 import { useMe } from '~/features/me/api'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import { SingleDatepicker } from 'chakra-dayzed-datepicker'
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { type z } from 'zod'
 import { ImageAttachmentButton } from '~/components/ImageAttachmentButton'
@@ -137,13 +136,10 @@ export const DonationForm = () => {
         {/* Expiry */}
         <FormControl id="expiry" isRequired>
           <FormLabel>Expiry Date</FormLabel>
-          <DatePicker
-            selected={watchExpiry}
-            onChange={(date) => date && setValue('expiry', date)}
-            dateFormat="dd/MM/yyyy"
-            showYearDropdown
-            showMonthDropdown
-            dropdownMode="select"
+          <SingleDatepicker
+            name="expiry"
+            date={watchExpiry}
+            onDateChange={(date) => date && setValue('expiry', date)}
           />
           <FormErrorMessage>{errors.expiry?.message}</FormErrorMessage>
         </FormControl>

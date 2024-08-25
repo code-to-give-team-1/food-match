@@ -12,8 +12,7 @@ import {
 import { useZodForm } from '~/lib/form'
 import { updateMeSchema } from '~/schemas/me'
 import { trpc } from '~/utils/trpc'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import { SingleDatepicker } from 'chakra-dayzed-datepicker'
 import { Navbar } from '~/features/common/components'
 import { useRouter } from 'next/router'
 
@@ -87,13 +86,10 @@ export const Profile = () => {
           w={desktop ? '50%' : '80%'}
         >
           <FormLabel>Date of Birth</FormLabel>
-          <DatePicker
-            selected={watchDob}
-            onChange={(date) => setValue('dob', date)}
-            dateFormat="dd/MM/yyyy"
-            showYearDropdown
-            showMonthDropdown
-            dropdownMode="select"
+          <SingleDatepicker
+            name="dob"
+            date={watchDob ?? undefined}
+            onDateChange={(date) => setValue('dob', date)}
           />
           <FormErrorMessage>{errors.dob?.message}</FormErrorMessage>
         </FormControl>

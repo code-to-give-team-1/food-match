@@ -65,7 +65,7 @@ export const DonationsPage = () => {
                   objectFit="cover"
                   style={{ borderBottom: '1px solid black' }}
                 />
-                <VStack p={10} align={'start'} justifyContent={'start'}>
+                <VStack p="1rem" align={'start'} justifyContent={'start'}>
                   <Box fontWeight="bold" mb={2}>
                     {donation.name}
                   </Box>

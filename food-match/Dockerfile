@@ -24,7 +24,21 @@ RUN corepack prepare pnpm@9.0.5 --activate
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # This will do the trick, use the corresponding env file for each environment.
-COPY .env .env.production
+ARG DATABASE_URL
+ARG SESSION_SECRET
+ARG R2_BUCKET_NAME
+ARG R2_ACCESS_KEY_ID
+ARG R2_SECRET_ACCESS_KEY
+ARG R2_ACCOUNT_ID
+ARG R2_PUBLIC_HOSTNAME
+
+ENV DATABASE_URL=$DATABASE_URL
+ENV SESSION_SECRET=$SESSION_SECRET
+ENV R2_BUCKET_NAME=$R2_BUCKET_NAME
+ENV R2_ACCESS_KEY_ID=$R2_ACCESS_KEY_ID
+ENV R2_SECRET_ACCESS_KEY=$R2_SECRET_ACCESS_KEY
+ENV R2_ACCOUNT_ID=$R2_ACCOUNT_ID
+ENV R2_PUBLIC_HOSTNAME=$R2_PUBLIC_HOSTNAME
 
 RUN find . -name ".next" -type d -depth -exec rm -r {} \;
 

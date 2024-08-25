@@ -5,6 +5,8 @@ export function getIsProfileComplete(
 ) {
   console.log('>>> getIsProfileComplete')
   console.log(user)
-  console.log(Boolean(user.name && user.email && user.emailVerified && user.dob))
+  console.log(
+    Boolean(user.name && user.email && user.emailVerified && user.dob),
+  )
   return Boolean(user.name && user.email && user.emailVerified && user.dob)
 }

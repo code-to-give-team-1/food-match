@@ -8,6 +8,7 @@ import {
   Image,
   Flex,
   VStack,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import { trpc } from '~/utils/trpc'
 
@@ -31,6 +32,8 @@ export type DonationItemType =
   | undefined
 
 export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
+  const [desktop] = useMediaQuery('(min-width: 600px)')
+  // const desktop = false
   const formatISOString = (date: Date): string => {
     return (
       date.getUTCDate() + '/' + date.getUTCMonth() + '/' + date.getUTCFullYear()
@@ -42,14 +45,15 @@ export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
       donorId: item.donorId,
     })
     return (
-      <HStack
-        paddingInline={20}
+      <Stack
+        padding={'2rem'}
         marginBlock={'10vh'}
         boxSizing="border-box"
         h={'70vh'}
         w={'100%'}
         align={'start'}
-        gap={20}
+        gap={'2rem'}
+        direction={desktop ? 'row' : 'column'}
       >
         <Image
           src={`${
@@ -60,11 +64,11 @@ export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
           alt="Item Image"
           border={'1px solid black'}
           borderRadius={'15px'}
-          w={'30%'}
+          w={desktop ? '40%' : '100%'}
           h={'100%'}
           objectFit={'cover'}
         />
-        <Stack h={'100%'} justify={'space-between'}>
+        <Stack h={'100%'}>
           <Box>
             <Text as="b">{item.name}</Text>
             <Text color={'gray'}>
@@ -103,7 +107,7 @@ export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
             )}
           </Box>
         </Stack>
-      </HStack>
+      </Stack>
     )
   } else {
     return <Text>Item not found</Text>

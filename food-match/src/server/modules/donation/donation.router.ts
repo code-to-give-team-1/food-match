@@ -88,19 +88,25 @@ export const donationRouter = router({
       }
       const data = await results.json()
       console.log(data)
-      const donationIds = data.top_donations.map((donation: [string, number]) => donation[0]) as string[]
+      const donationIds = data.top_donations.map(
+        (donation: [string, number]) => donation[0],
+      ) as string[]
       const donations = await ctx.prisma.donation.findMany({
         where: {
           id: {
             in: donationIds,
           },
-          tagsIds: tags.length ? {
-            hasSome: tags,
-          } : undefined,
+          tagsIds: tags.length
+            ? {
+                hasSome: tags,
+              }
+            : undefined,
         },
       })
       // sort according to order in donationIds
-      const sortedResults = donationIds.map((id) => donations.find((result) => result.id === id))
+      const sortedResults = donationIds.map((id) =>
+        donations.find((result) => result.id === id),
+      )
       return sortedResults
     }),
   // Retrieve the details for a specific donation

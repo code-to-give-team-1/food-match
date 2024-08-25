@@ -24,7 +24,7 @@ export const donationSchema = z.object({
     .min(1, { message: 'Please enter a description.' })
     .max(500, { message: 'Description should not exceed 500 characters.' }),
 
-  expiry: z.date().nullable(),
+  expiry: z.date(),
 
   // .refine((val) => !isNaN(new Date(val).getTime()), {
   //   message: 'Invalid date format.',

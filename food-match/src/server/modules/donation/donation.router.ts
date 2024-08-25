@@ -1,9 +1,9 @@
-import { publicProcedure, router } from '~/server/trpc'
+import { protectedProcedure, publicProcedure, router } from '~/server/trpc'
 import { donationSchema } from '~/schemas/donation/donation'
 import { z } from 'zod'
 export const donationRouter = router({
   // Donors can create a donation with the relevant details.
-  createDonation: publicProcedure
+  createDonation: protectedProcedure
     .input(donationSchema)
     .mutation(async ({ ctx, input }) => {
       const donation = await ctx.prisma.donation.create({
@@ -15,7 +15,7 @@ export const donationRouter = router({
           expiry: input.expiry,
           quantity: input.quantity,
           passCode: input.passCode,
-          donorId: input.donorId,
+          donorId: ctx.user.id,
           beneficiaryId: input.beneficiaryId,
         },
       })

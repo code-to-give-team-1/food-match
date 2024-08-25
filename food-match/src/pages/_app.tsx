@@ -9,7 +9,7 @@ import Suspense from '~/components/Suspense'
 import { type NextPageWithLayout } from '~/lib/types'
 import { DefaultLayout } from '~/templates/layouts/DefaultLayout'
 import { trpc } from '~/utils/trpc'
-import { EnvProvider, FeatureProvider } from '~/components/AppProviders'
+import { EnvProvider } from '~/components/AppProviders'
 import { LoginStateProvider } from '~/features/auth'
 import { env } from '~/env.mjs'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -23,18 +23,16 @@ const MyApp = ((props: AppPropsWithAuthAndLayout) => {
   return (
     <EnvProvider env={env}>
       <LoginStateProvider>
-        <FeatureProvider>
-          <ErrorBoundary FallbackComponent={DefaultFallback}>
-            <Suspense fallback={<Skeleton width="100vw" />}>
-              <Stack spacing={0} minH="$100vh">
-                <ChildWithLayout {...props} />
-                {process.env.NODE_ENV !== 'production' && (
-                  <ReactQueryDevtools initialIsOpen={false} />
-                )}
-              </Stack>
-            </Suspense>
-          </ErrorBoundary>
-        </FeatureProvider>
+        <ErrorBoundary FallbackComponent={DefaultFallback}>
+          <Suspense fallback={<Skeleton width="100vw" />}>
+            <Stack spacing={0} minH="$100vh">
+              <ChildWithLayout {...props} />
+              {process.env.NODE_ENV !== 'production' && (
+                <ReactQueryDevtools initialIsOpen={false} />
+              )}
+            </Stack>
+          </Suspense>
+        </ErrorBoundary>
       </LoginStateProvider>
     </EnvProvider>
   )

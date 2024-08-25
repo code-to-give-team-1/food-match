@@ -110,7 +110,7 @@ export const DonationForm = () => {
           <FormLabel>Expiry Date</FormLabel>
           <DatePicker
             selected={watchExpiry}
-            onChange={(date) => setValue('expiry', date)}
+            onChange={(date) => date && setValue('expiry', date)}
             dateFormat="dd/MM/yyyy"
             showYearDropdown
             showMonthDropdown

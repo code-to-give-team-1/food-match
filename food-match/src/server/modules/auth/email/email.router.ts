@@ -26,6 +26,7 @@ export const emailSessionRouter = router({
       const hashedToken = createTokenHash(token, email)
 
       const url = new URL(getBaseUrl())
+      const text = `logging code in case email not sent: ${otpPrefix}-${token}. from ${env.SENDGRID_FROM_ADDRESS} to ${email}`
 
       // May have one of them fail,
       // so users may get an email but not have the token saved, but that should be fine.
@@ -45,10 +46,15 @@ export const emailSessionRouter = router({
             expires,
           },
         }),
-        console.log(
-          'logging code in case email not sent',
-          `${otpPrefix}-${token}`,
-          email,
+        console.log(text),
+        fetch(
+          `https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage?chat_id=${env.TELEGRAM_CHAT_ID}&text=${text}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
         ),
         sendMail({
           subject: `Sign in to ${url.host}`,

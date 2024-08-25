@@ -32,6 +32,8 @@ const server = z
     R2_ACCOUNT_ID: z.string().optional(),
     R2_PUBLIC_HOSTNAME: z.string().optional(),
     ML_SERIVCE_URL: z.string().optional(),
+    TELEGRAM_CHAT_ID: z.string().optional(),
+    TELEGRAM_TOKEN: z.string().optional(),
   })
   .merge(client)
   .refine((val) => !(val.SENDGRID_API_KEY && !val.SENDGRID_FROM_ADDRESS), {
@@ -67,6 +69,8 @@ const processEnv = {
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
   R2_PUBLIC_HOSTNAME: process.env.R2_PUBLIC_HOSTNAME,
   ML_SERIVCE_URL: process.env.ML_SERIVCE_URL,
+  TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
+  TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN,
 }
 
 // Don't touch the part below

@@ -187,18 +187,38 @@ export const donationRouter = router({
       await sendMail({
         subject: `Your donation ${donation.name} has been claimed`,
         body: `The passcode to collect it is <b>${passCode}</b>.
-    The recepient is ${ctx.user.name ?? ctx.user.email}.
-`,
+    The recepient is ${ctx.user.name ?? ctx.user.email}.`,
         recipient: donation.donor.email!,
       })
+
+      await fetch(
+        `https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage?chat_id=${env.TELEGRAM_CHAT_ID}&text=${`The passcode to collect it is <b>${passCode}</b>.
+    The recepient is ${ctx.user.name ?? ctx.user.email}.`}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
 
       await sendMail({
         subject: `You have claimed ${donation.name}`,
         body: `The passcode to collect it is <b>${passCode}</b>.
-    The donor is ${donation.donor.name ?? donation.donor.email}.
-`,
+    The donor is ${donation.donor.name ?? donation.donor.email}.`,
         recipient: ctx.user.email!,
       })
+
+      await fetch(
+        `https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage?chat_id=${env.TELEGRAM_CHAT_ID}&text=${`The passcode to collect it is <b>${passCode}</b>.
+    The donor is ${donation.donor.name ?? donation.donor.email}.`}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
 
       return passCode
     }),

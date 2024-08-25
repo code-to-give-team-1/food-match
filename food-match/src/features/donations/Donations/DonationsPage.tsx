@@ -26,7 +26,7 @@ export const DonationsPage = () => {
       .map((tag) => (typeof tag.value === 'string' ? tag.value : '')),
   })
   return (
-    <Stack p="2rem">
+    <Stack p="6rem">
       {/* Search inputs */}
       {/* Results of data pulled from Postgres */}
       <BeneficiarySearch

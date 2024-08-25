@@ -43,7 +43,7 @@ export const Profile = () => {
 
   const updateMeMutation = trpc.me.update.useMutation({
     onSuccess: () => {
-      router.push('/home')
+      void router.push('/home')
     },
     onError: (error) => {
       setError('name', { message: error.message })
@@ -61,7 +61,7 @@ export const Profile = () => {
         spacing="1rem"
         alignItems="center"
         justifyContent="center"
-        pt="1rem"
+        pt="6rem"
       >
         <FormControl
           id="name"

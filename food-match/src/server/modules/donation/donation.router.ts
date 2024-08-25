@@ -2,6 +2,13 @@ import { protectedProcedure, publicProcedure, router } from '~/server/trpc'
 import { addDonationSchema } from '~/schemas/donation/donation'
 import { z } from 'zod'
 import { env } from '~/env.mjs'
+import { sendMail } from '~/lib/mail'
+
+function generatePasscode() {
+  const min = 100000 // This ensures the passcode is at least 6 digits long.
+  const max = 999999 // This ensures the passcode does not exceed 6 digits.
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 export const donationRouter = router({
   // Donors can create a donation with the relevant details.
@@ -121,8 +128,49 @@ export const donationRouter = router({
         where: {
           id: input.donationId,
         },
+        include: {
+          donor: true,
+          beneficiary: true,
+        },
       })
       return donations
+    }),
+  claimDonation: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const passCode = generatePasscode()
+      const donation = await ctx.prisma.donation.update({
+        where: { id: input.id },
+        data: {
+          beneficiaryId: ctx.user.id,
+          passCode: passCode.toString(),
+        },
+        include: {
+          donor: true,
+          beneficiary: true,
+        },
+      })
+      await sendMail({
+        subject: `Your donation ${donation.name} has been claimed`,
+        body: `The passcode to collect it is <b>${passCode}</b>.
+    The recepient is ${ctx.user.name ?? ctx.user.email}.
+`,
+        recipient: donation.donor.email!,
+      })
+
+      await sendMail({
+        subject: `You have claimed ${donation.name}`,
+        body: `The passcode to collect it is <b>${passCode}</b>.
+    The donor is ${donation.donor.name ?? donation.donor.email}.
+`,
+        recipient: ctx.user.email!,
+      })
+
+      return passCode
     }),
   //   deleteDonation: publicProcedure
   //     .input(z.string())

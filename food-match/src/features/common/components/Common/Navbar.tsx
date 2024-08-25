@@ -66,7 +66,15 @@ export const Navbar = () => {
   const router = useRouter()
 
   return (
-    <Box bg={'#191919'} color={'white'} px={desktop ? '2rem' : ''}>
+    <Box
+      bg={'#191919'}
+      color={'white'}
+      px={desktop ? '2rem' : ''}
+      position="fixed"
+      top="0"
+      w="full"
+      zIndex={9999}
+    >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         {!desktop && (
           <HStack spacing="1rem">

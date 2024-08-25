@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -108,83 +107,80 @@ export const DonationForm = () => {
   FormInput.displayName = 'FormInput'
 
   return (
-    <Stack alignItems={'center'} justifyContent="center" w="100%">
-        <Stack
-          alignItems={'center'}
-          spacing="1rem"
-          justifyContent="center"
-          w={desktop ? '50%' : '80%'}
-        >
-          {/* Item Name */}
-          <FormInput
-            id="name"
-            label="Name of item to donate"
-            placeholder="e.g. Luncheon Meat"
-            register={register}
-            errors={errors}
-            isRequired
+    <Stack alignItems={'center'} justifyContent="center" w="100%" pt="6rem">
+      <Stack
+        alignItems={'center'}
+        spacing="1rem"
+        justifyContent="center"
+        w={desktop ? '50%' : '80%'}
+      >
+        {/* Item Name */}
+        <FormInput
+          id="name"
+          label="Name of item to donate"
+          placeholder="e.g. Luncheon Meat"
+          register={register}
+          errors={errors}
+          isRequired
+        />
+        {/* TODO: Dropdown for tags */}
+        {/* TODO: Image urls */}
+        {/* Description */}
+        <FormInput
+          id="description"
+          label="Description"
+          placeholder="e.g. Unused food from our kitchen"
+          register={register}
+          errors={errors}
+          isRequired
+        />
+        {/* Expiry */}
+        <FormControl id="expiry" isRequired>
+          <FormLabel>Expiry Date</FormLabel>
+          <DatePicker
+            selected={watchExpiry}
+            onChange={(date) => date && setValue('expiry', date)}
+            dateFormat="dd/MM/yyyy"
+            showYearDropdown
+            showMonthDropdown
+            dropdownMode="select"
           />
-          {/* TODO: Dropdown for tags */}
-          {/* TODO: Image urls */}
-          {/* Description */}
-          <FormInput
-            id="description"
-            label="Description"
-            placeholder="e.g. Unused food from our kitchen"
-            register={register}
-            errors={errors}
-            isRequired
-          />
-          {/* Expiry */}
-          <FormControl
-            id="expiry"
-            isRequired
-          >
-            <FormLabel>Expiry Date</FormLabel>
-            <DatePicker
-              selected={watchExpiry}
-              onChange={(date) => date && setValue('expiry', date)}
-              dateFormat="dd/MM/yyyy"
-              showYearDropdown
-              showMonthDropdown
-              dropdownMode="select"
-            />
-            <FormErrorMessage>{errors.expiry?.message}</FormErrorMessage>
-          </FormControl>
-          {/* Quantity */}
-          <FormInput
-            id="quantity"
-            label="Quantity to Donate"
-            placeholder="e.g. 1"
-            register={register}
-            errors={errors}
-            isRequired
-          />
-          <FormControl id="imageUrls">
-            <ImageAttachmentButton
-              onChange={(files) => {
-                setValue('images', files)
-              }}
-              value={watch('images')}
-            />
-          </FormControl>
-          {/* Submit */}
-          <Button
-            onClick={async () => {
-              await handleCreateDonation()
+          <FormErrorMessage>{errors.expiry?.message}</FormErrorMessage>
+        </FormControl>
+        {/* Quantity */}
+        <FormInput
+          id="quantity"
+          label="Quantity to Donate"
+          placeholder="e.g. 1"
+          register={register}
+          errors={errors}
+          isRequired
+        />
+        <FormControl id="imageUrls">
+          <ImageAttachmentButton
+            onChange={(files) => {
+              setValue('images', files)
             }}
-            size="xs"
-            height="2.75rem"
-            bgColor={'black'}
-            color="white"
-            borderRadius={'15px'}
-            width={'200px'}
-            cursor={'pointer'}
-            isLoading={createDonationMutation.isLoading}
-          >
-            Create Donation
-          </Button>
-        </Stack>
+            value={watch('images')}
+          />
+        </FormControl>
+        {/* Submit */}
+        <Button
+          onClick={async () => {
+            await handleCreateDonation()
+          }}
+          size="xs"
+          height="2.75rem"
+          bgColor={'black'}
+          color="white"
+          borderRadius={'15px'}
+          width={'200px'}
+          cursor={'pointer'}
+          isLoading={createDonationMutation.isLoading}
+        >
+          Create Donation
+        </Button>
+      </Stack>
     </Stack>
   )
 }

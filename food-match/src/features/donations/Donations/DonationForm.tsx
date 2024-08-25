@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { useZodForm } from '~/lib/form'
-import { donationSchema } from '~/schemas/donation/donation'
+import { clientAddDonationSchema } from '~/schemas/donation/donation'
 import { trpc } from '~/utils/trpc'
 import { useRouter } from 'next/router'
 import { useMe } from '~/features/me/api'
@@ -16,6 +16,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { type z } from 'zod'
+import { ImageAttachmentButton } from '~/components/ImageAttachmentButton'
+import { useUploadImagesMutation } from '~/hooks/useUploadImagesMutation'
 
 export const DonationForm = () => {
   // Use Zod + React Hook Form to enforce error checking and submission
@@ -28,13 +30,14 @@ export const DonationForm = () => {
 
     formState: { errors },
   } = useZodForm({
-    schema: donationSchema,
+    schema: clientAddDonationSchema,
     mode: 'onSubmit',
   })
   const router = useRouter()
   const watchExpiry = watch('expiry')
 
   const { me } = useMe()
+  const uploadImagesMutation = useUploadImagesMutation()
   // console.log(me)
   // Use mutations to create an entry in Postgres
   const createDonationMutation = trpc.donation.createDonation.useMutation({
@@ -45,17 +48,21 @@ export const DonationForm = () => {
 
   // Handles the form submission
   const handleCreateDonation = handleSubmit((data) => {
+    return uploadImagesMutation.mutate(data.images, {
+      onSuccess: (uploadedImageKeys) => {
+        return createDonationMutation.mutate({
+          name: data.name,
+          description: data.description,
+          expiry: data.expiry,
+          quantity: data.quantity,
+          donorId: me.id,
+          imageKeys: uploadedImageKeys,
+          // tagIds
+        })
+      },
+    })
     // Fill in the remaining manually first
     // TODO: Remove when able to process all fields
-    const processedData = {
-      ...data,
-      tagIds: [],
-      imageIds: [],
-      passCode: undefined,
-      donorId: me.id,
-    }
-
-    return createDonationMutation.mutate(processedData)
   }, console.error)
 
   // Abstracted form input
@@ -69,11 +76,11 @@ export const DonationForm = () => {
       errors,
       isRequired = false,
     }: {
-      id: keyof z.infer<typeof donationSchema>
+      id: keyof z.infer<typeof clientAddDonationSchema>
       label: string
       placeholder: string
-      register: UseFormRegister<z.infer<typeof donationSchema>>
-      errors: FieldErrors<z.infer<typeof donationSchema>>
+      register: UseFormRegister<z.infer<typeof clientAddDonationSchema>>
+      errors: FieldErrors<z.infer<typeof clientAddDonationSchema>>
       isRequired?: boolean
     }) => (
       <FormControl id={id} isRequired={isRequired} isInvalid={!!errors[id]}>
@@ -145,10 +152,17 @@ export const DonationForm = () => {
           errors={errors}
           isRequired
         />
+        <FormControl id="imageUrls">
+          <ImageAttachmentButton
+            onChange={(files) => {
+              setValue('images', files)
+            }}
+            value={[]}
+          />
+        </FormControl>
         {/* Submit */}
         <Button
           onClick={async () => {
-            console.log('test')
             await handleCreateDonation()
           }}
           size="xs"

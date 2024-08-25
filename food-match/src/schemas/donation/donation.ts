@@ -1,6 +1,13 @@
 import { z } from 'zod'
 
-export const donationSchema = z.object({
+const clientImageSchema = {
+  images:
+    typeof window === 'undefined'
+      ? z.undefined()
+      : z.array(z.instanceof(File)).optional(),
+}
+
+export const addDonationSchema = z.object({
   name: z
     .string()
     .trim()
@@ -13,8 +20,8 @@ export const donationSchema = z.object({
     .max(5, { message: 'You can select up to 5 tags only.' })
     .optional(),
 
-  imageUrls: z
-    .array(z.string().url({ message: 'Please enter a valid URL.' }))
+  imageKeys: z
+    .array(z.string({ message: 'Please enter a valid URL.' }))
     .min(1, { message: 'Please provide at least one image URL.' })
     .optional(),
 
@@ -46,3 +53,7 @@ export const donationSchema = z.object({
     .min(1, { message: 'Beneficiary ID is required.' })
     .optional(),
 })
+
+export const clientAddDonationSchema = addDonationSchema
+  .extend(clientImageSchema)
+  .omit({ imageKeys: true })

@@ -1,16 +1,22 @@
 import { protectedProcedure, publicProcedure, router } from '~/server/trpc'
-import { donationSchema } from '~/schemas/donation/donation'
+import { addDonationSchema } from '~/schemas/donation/donation'
 import { z } from 'zod'
+import { env } from '~/env.mjs'
+
 export const donationRouter = router({
   // Donors can create a donation with the relevant details.
   createDonation: protectedProcedure
-    .input(donationSchema)
+    .input(addDonationSchema)
     .mutation(async ({ ctx, input }) => {
+      const imageKeys = input.imageKeys ?? []
+      const imageUrls = imageKeys.map((key) => {
+        return `https://${env.R2_PUBLIC_HOSTNAME}/${key}`
+      })
       const donation = await ctx.prisma.donation.create({
         data: {
           name: input.name,
           tagsIds: input.tagsIds,
-          imageUrls: input.imageUrls,
+          imageUrls,
           description: input.description,
           expiry: input.expiry,
           quantity: input.quantity,

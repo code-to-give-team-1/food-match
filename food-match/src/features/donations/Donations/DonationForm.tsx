@@ -108,13 +108,12 @@ export const DonationForm = () => {
   FormInput.displayName = 'FormInput'
 
   return (
-    <Box alignItems={'center'} justifyContent="center">
-      <form onSubmit={handleCreateDonation} noValidate>
+    <Stack alignItems={'center'} justifyContent="center" w="100%">
         <Stack
-          w={desktop ? '50%' : '80%'}
           alignItems={'center'}
           spacing="1rem"
           justifyContent="center"
+          w={desktop ? '50%' : '80%'}
         >
           {/* Item Name */}
           <FormInput
@@ -140,9 +139,6 @@ export const DonationForm = () => {
           <FormControl
             id="expiry"
             isRequired
-            // isInvalid={!!errors.dob}
-            // isReadOnly={updateMeMutation.isLoading}
-            // w="20rem"
           >
             <FormLabel>Expiry Date</FormLabel>
             <DatePicker
@@ -169,7 +165,7 @@ export const DonationForm = () => {
               onChange={(files) => {
                 setValue('images', files)
               }}
-              value={[]}
+              value={watch('images')}
             />
           </FormControl>
           {/* Submit */}
@@ -189,7 +185,6 @@ export const DonationForm = () => {
             Create Donation
           </Button>
         </Stack>
-      </form>
-    </Box>
+    </Stack>
   )
 }

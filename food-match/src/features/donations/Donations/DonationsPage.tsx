@@ -42,12 +42,17 @@ export const DonationsPage = () => {
                 cursor={'pointer'}
               >
                 <Image
-                  src={donation.imageUrls[0]}
+                  src={
+                    donation.imageUrls.length > 0
+                      ? donation.imageUrls[0]
+                      : '/images/placeholder.png'
+                  }
                   alt={donation.name}
                   w="100%"
                   h="50%"
                   maxH={'150px'}
                   objectFit="cover"
+                  style={{ borderBottom: '1px solid black' }}
                 />
                 <Box p={4}>
                   <Text fontWeight="bold" mb={2}>

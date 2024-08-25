@@ -67,15 +67,13 @@ export const donationRouter = router({
   getDonation: publicProcedure
     .input(
       z.object({
-        name: z.string(),
-        donorId: z.string(),
+        donationId: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const donations = await ctx.prisma.donation.findMany({
+      const donations = await ctx.prisma.donation.findFirst({
         where: {
-          name: input.name,
-          donorId: input.donorId,
+          id: input.donationId,
         },
       })
       return donations

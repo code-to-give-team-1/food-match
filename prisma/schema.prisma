@@ -44,12 +44,13 @@ model User {
 }
 
 model Donation {
-  id          String   @id @default(uuid())
-  name        String
-  tags        Tag[]
-  tagsIds     String[]
-  imageUrls   String[]
-  description String
+  id                           String             @id @default(uuid())
+  name                         String
+  tags                         Tag[]
+  tagsIds                      String[]
+  imageUrls                    String[]
+  description                  String
+  vector                       Float[]
   // if it doesn't expire we can set it to a far future date
   expiry      DateTime @db.Timestamptz(3)
   // quantity as string so donor can write the units, e.g. 1kg, 1L, 1 packet

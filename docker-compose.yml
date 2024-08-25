@@ -1,21 +1,21 @@
 services:
-  # food-match:
-  #   image: tigercxx/food-match:latest
-  #   build:
-  #     context: ./food-match
-  #     dockerfile: Dockerfile
-  #     args:
-  #     - DATABASE_URL=${DATABASE_URL}
-  #     - SESSION_SECRET=${SESSION_SECRET}
-  #     - R2_BUCKET_NAME=${R2_BUCKET_NAME}
-  #     - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
-  #     - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
-  #     - R2_ACCOUNT_ID=${R2_ACCOUNT_ID}
-  #     - R2_PUBLIC_HOSTNAME=${R2_PUBLIC_HOSTNAME}
-  #   ports:
-  #     - 3000:3000
-  #   env_file:
-  #     - .env
+  food-match:
+    image: tigercxx/food-match:latest
+    build:
+      context: ./food-match
+      dockerfile: Dockerfile
+      args:
+      - DATABASE_URL=${DATABASE_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - R2_BUCKET_NAME=${R2_BUCKET_NAME}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
+      - R2_ACCOUNT_ID=${R2_ACCOUNT_ID}
+      - R2_PUBLIC_HOSTNAME=${R2_PUBLIC_HOSTNAME}
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
   ml-service:
     image: tigercxx/ml-service:latest
     build:

@@ -10,9 +10,9 @@ app = Flask(__name__)
 # Database connection details
 DATABASE = {
     'dbname': os.getenv('DATABASE_NAME', 'food-match'),
-    'user': os.getenv('DATABASE_USER', 'yourusername'),
-    'password': os.getenv('DATABASE_PASSWORD', 'yourpassword'),
-    'host': os.getenv('DATABASE_HOST', 'db')
+    'user': os.getenv('DATABASE_USER', 'root'),
+    'password': os.getenv('DATABASE_PASSWORD', 'root'),
+    'host': os.getenv('DATABASE_HOST', 'postgres')
 }
 
 def get_db_connection():
@@ -32,7 +32,7 @@ def vectorize_query(query):
 def save_vector_to_db(donation_id, vector):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('''UPDATE "Donation" SET "vector" = %s WHERE "id" = %s''', (vector, donation_id))
+    cursor.execute('''UPDATE "Donation" SET "vector" = %s WHERE "id" = %s''', (vector, str(donation_id)))
     conn.commit()
     cursor.close()
     conn.close()
@@ -45,7 +45,7 @@ def vectorize_donation():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('''SELECT "name" FROM "Donation" WHERE "id" = %s''', (donation_id,))
+    cursor.execute('''SELECT "name" FROM "Donation" WHERE "id"::text = %s''', (str(donation_id),))
     result = cursor.fetchone()
     cursor.close()
     conn.close()

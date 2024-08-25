@@ -3,12 +3,7 @@ import { addDonationSchema } from '~/schemas/donation/donation'
 import { z } from 'zod'
 import { env } from '~/env.mjs'
 import { sendMail } from '~/lib/mail'
-
-function generatePasscode() {
-  const min = 100000 // This ensures the passcode is at least 6 digits long.
-  const max = 999999 // This ensures the passcode does not exceed 6 digits.
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
+import { generatePasscode, getDonationsWithTags } from './donation.utils'
 
 export const donationRouter = router({
   // Donors can create a donation with the relevant details.
@@ -67,15 +62,25 @@ export const donationRouter = router({
       const { searchQuery, tags } = input
       if (!searchQuery) {
         if (tags.length) {
-          return ctx.prisma.donation.findMany({
+          const donations = await ctx.prisma.donation.findMany({
             where: {
               tagsIds: {
                 hasSome: tags,
               },
             },
+            include: {
+              tags: true,
+            },
           })
+          return await getDonationsWithTags({ prisma: ctx.prisma, donations })
         }
-        return ctx.prisma.donation.findMany()
+
+        const donations = await ctx.prisma.donation.findMany({
+          include: {
+            tags: true,
+          },
+        })
+        return await getDonationsWithTags({ prisma: ctx.prisma, donations })
       }
 
       // call python service
@@ -91,7 +96,12 @@ export const donationRouter = router({
       })
       if (!results.ok) {
         console.error('Failed to search donations from python service')
-        return ctx.prisma.donation.findMany()
+        const donations = await ctx.prisma.donation.findMany({
+          include: {
+            tags: true,
+          },
+        })
+        return await getDonationsWithTags({ prisma: ctx.prisma, donations })
       }
       const data = await results.json()
       console.log(data)
@@ -109,10 +119,17 @@ export const donationRouter = router({
               }
             : undefined,
         },
+        include: {
+          tags: true,
+        },
+      })
+      const donationsWithTags = await getDonationsWithTags({
+        prisma: ctx.prisma,
+        donations,
       })
       // sort according to order in donationIds
       const sortedResults = donationIds.map((id) =>
-        donations.find((result) => result.id === id),
+        donationsWithTags.find((result) => result.id === id),
       )
       return sortedResults
     }),
@@ -131,8 +148,21 @@ export const donationRouter = router({
         include: {
           donor: true,
           beneficiary: true,
+          tags: true,
         },
       })
+
+      if (donations && donations.tagsIds.length > 0) {
+        const tags = await ctx.prisma.tag.findMany({
+          where: {
+            id: {
+              in: donations.tagsIds,
+            },
+          },
+        })
+        donations.tags = tags // Manually attach the fetched tags to the donations object
+      }
+
       return donations
     }),
   claimDonation: protectedProcedure

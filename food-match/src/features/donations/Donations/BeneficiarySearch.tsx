@@ -44,6 +44,7 @@ export const BeneficiarySearch = ({
             color={'white'}
             bgColor={'black'}
             borderRadius={'15px'}
+            w="8rem"
             onClick={() => {
               setOuterQuery(query)
               console.log(value)

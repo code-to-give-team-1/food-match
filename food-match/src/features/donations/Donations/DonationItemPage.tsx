@@ -62,6 +62,8 @@ export const DonationItemPage = ({
     )
   }
 
+  console.log('item', item?.tags)
+
   if (item) {
     return (
       <>
@@ -137,7 +139,12 @@ export const DonationItemPage = ({
               <Text color={'gray'}>
                 <InfoIcon /> Quantity: {item.quantity}
               </Text>
-
+              {item.tags.length > 0 && (
+                <Text color={'gray'}>
+                  <InfoIcon /> Tags:{' '}
+                  {item.tags.map((tag) => tag.name).join(', ')}
+                </Text>
+              )}
               <Text color={'gray'}>
                 <AtSignIcon /> Donor: {item.donor.name}
               </Text>

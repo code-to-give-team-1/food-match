@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Grid,
   GridItem,
   Image,
@@ -48,7 +49,6 @@ export const DonationsPage = () => {
                 border="1px solid black"
                 borderRadius="15px"
                 overflow="hidden"
-                maxH={'300px'}
                 onClick={() => router.push(`/donation/${donation.id}`)}
                 cursor={'pointer'}
               >
@@ -71,6 +71,24 @@ export const DonationsPage = () => {
                   </Box>
                   <Text>{donation.description}</Text>
                 </VStack>
+                <Box w="100%" alignItems="center" justifyContent="center">
+                  <Flex w="100%" gap="0.5rem" px="1rem" pb="1rem">
+                    {donation.tags.map((tag) => (
+                      <Box
+                        key={tag.id}
+                        bg="#f1f1f1"
+                        borderRadius="4px"
+                        px="0.5rem"
+                        py="0.2rem"
+                        mb="0.5rem"
+                      >
+                        <Text fontSize="0.8rem" color={'gray'}>
+                          {tag.name}
+                        </Text>
+                      </Box>
+                    ))}
+                  </Flex>
+                </Box>
               </Box>
             </GridItem>
           )

@@ -18,6 +18,8 @@ import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
 import { type z } from 'zod'
 import { ImageAttachmentButton } from '~/components/ImageAttachmentButton'
 import { useUploadImagesMutation } from '~/hooks/useUploadImagesMutation'
+import { MultiSelect, useMultiSelect, type Option } from 'chakra-multiselect'
+import { useMemo } from 'react'
 
 export const DonationForm = () => {
   // Use Zod + React Hook Form to enforce error checking and submission
@@ -47,6 +49,15 @@ export const DonationForm = () => {
     onError: (error) => setError('name', { message: error.message }),
   })
 
+  const [tags] = trpc.tag.getAllTags.useSuspenseQuery()
+  const optionTags = useMemo(() => {
+    return tags.map((tag) => ({ label: tag.name, value: tag.id }))
+  }, [tags])
+  const { value, options, onChange } = useMultiSelect({
+    value: [],
+    options: optionTags,
+  })
+
   // Handles the form submission
   const handleCreateDonation = handleSubmit((data) => {
     return uploadImagesMutation.mutate(data.images, {
@@ -59,6 +70,11 @@ export const DonationForm = () => {
           donorId: me.id,
           imageKeys: uploadedImageKeys,
           // tagIds
+          tagsIds: value
+            ? (value as unknown as Option[]).map((tag) =>
+                typeof tag.value === 'string' ? tag.value : '',
+              )
+            : undefined,
         })
       },
     })
@@ -152,6 +168,20 @@ export const DonationForm = () => {
           errors={errors}
           isRequired
         />
+        {/* Tags */}
+        <FormControl id="tagIds">
+          <FormLabel marginBottom="5px">Tags</FormLabel>
+          <MultiSelect
+            placeholder="Preferences"
+            borderRadius={'15px'}
+            h={'30px'}
+            w="100%"
+            value={value}
+            onChange={onChange}
+            options={options}
+          />
+        </FormControl>
+        {/* Image URLs */}
         <FormControl id="imageUrls">
           <ImageAttachmentButton
             onChange={(files) => {

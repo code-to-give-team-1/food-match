@@ -1,4 +1,4 @@
-import { Box, HStack, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, HStack, Stack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
 export type DonationItemType =
@@ -44,6 +44,20 @@ export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
         <Text>Donor: {item.donorId}</Text>
         <Text>Expiry: {item.expiry.toISOString()}</Text>
         <Text>Created At: {item.createdAt.toISOString()}</Text>
+        {!item.beneficiaryId ? (
+          <Button
+            bgColor={'black'}
+            color={'white'}
+            h={'25px'}
+            borderRadius={'15px'}
+          >
+            I want to collect this item
+          </Button>
+        ) : (
+          <Text>
+            This item is being collected by user {item.beneficiaryId}.
+          </Text>
+        )}
       </Stack>
     </HStack>
   ) : (

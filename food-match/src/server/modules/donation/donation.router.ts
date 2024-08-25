@@ -28,7 +28,7 @@ export const donationRouter = router({
         },
       })
 
-      const result = await fetch('http://localhost:5001/vectorize_donation', {
+      const result = await fetch(`${env.ML_SERIVCE_URL}/vectorize_donation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const donationRouter = router({
       }
 
       // call python service
-      const results = await fetch('http://localhost:5001/search_donations', {
+      const results = await fetch(`${env.ML_SERIVCE_URL}/search_donations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

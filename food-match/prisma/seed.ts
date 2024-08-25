@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { env } from '~/env.mjs'
 
 const prisma = new PrismaClient()
 
@@ -149,7 +150,7 @@ async function main() {
 
   // vectorize the donations
   for (const donation of donations) {
-    const result = await fetch('http://localhost:5001/vectorize_donation', {
+    const result = await fetch(`${env.ML_SERIVCE_URL}/vectorize_donation`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

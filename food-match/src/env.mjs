@@ -31,6 +31,7 @@ const server = z
     R2_SECRET_ACCESS_KEY: z.string().optional(),
     R2_ACCOUNT_ID: z.string().optional(),
     R2_PUBLIC_HOSTNAME: z.string().optional(),
+    ML_SERIVCE_URL: z.string().optional(),
   })
   .merge(client)
   .refine((val) => !(val.SENDGRID_API_KEY && !val.SENDGRID_FROM_ADDRESS), {
@@ -65,6 +66,7 @@ const processEnv = {
   R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
   R2_PUBLIC_HOSTNAME: process.env.R2_PUBLIC_HOSTNAME,
+  ML_SERIVCE_URL: process.env.ML_SERIVCE_URL,
 }
 
 // Don't touch the part below

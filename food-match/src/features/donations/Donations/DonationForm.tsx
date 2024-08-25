@@ -6,7 +6,7 @@ import {
   Input,
   Stack,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React from 'react'
 import { useZodForm } from '~/lib/form'
 import { donationSchema } from '~/schemas/donation/donation'
 import { trpc } from '~/utils/trpc'
@@ -22,10 +22,7 @@ export const DonationForm = () => {
     handleSubmit,
     setError,
     watch,
-
-    clearErrors,
     setValue,
-    getValues,
 
     formState: { errors },
   } = useZodForm({
@@ -36,8 +33,6 @@ export const DonationForm = () => {
   const watchExpiry = watch('expiry')
 
   const { me } = useMe()
-  console.log(me)
-  console.log(me.donor)
   // console.log(me)
   // Use mutations to create an entry in Postgres
   const createDonationMutation = trpc.donation.createDonation.useMutation({
@@ -55,9 +50,7 @@ export const DonationForm = () => {
       tagIds: [],
       imageIds: [],
       passCode: undefined,
-      beneficiaryId: 'none',
       donorId: me.id,
-      donor: me.donor,
     }
 
     return createDonationMutation.mutate(processedData)

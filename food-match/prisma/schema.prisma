@@ -21,74 +21,48 @@ model VerificationToken {
 }
 
 model User {
-  id                           String             @id @default(uuid())
-  name                         String?
-  dob                          DateTime?          @db.Date
-  email                        String?            @unique
-  emailVerified                DateTime?          @db.Timestamptz(3)
-  mobile                       String?
-  mobileVerified               DateTime?          @db.Timestamptz(3)
-  image                        String?
+  id             String    @id @default(uuid())
+  name           String?
+  dob            DateTime? @db.Date
+  email          String?   @unique
+  emailVerified  DateTime? @db.Timestamptz(3)
+  mobile         String?
+  mobileVerified DateTime? @db.Timestamptz(3)
+  image          String?
 
   createdAt DateTime  @default(now()) @db.Timestamptz(3)
   updatedAt DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
   deletedAt DateTime? @db.Timestamptz(3)
 
-  donor                       Donor?
-  beneficiary                 Beneficiary?
+  // donations made by the user
+  donationsDonor       Donation[] @relation(name: "DonationToDonor")
+  // donations received by the user
+  donationsBeneficiary Donation[] @relation(name: "DonationToBeneficiary")
 
   @@index([name])
   @@index([email])
 }
 
-model Donor {
-  id                           String             @id @default(uuid())
-  user                         User               @relation(fields: [userId], references: [id])
-  userId                       String             @unique
-
-  createdAt DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
-  deletedAt DateTime? @db.Timestamptz(3)
-
-  donorDonation                Donation[]
-
-  @@index([userId])
-}
-
-model Beneficiary {
-  id                           String             @id @default(uuid())
-  user                         User               @relation(fields: [userId], references: [id])
-  userId                       String             @unique
-
-  createdAt DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt DateTime  @default(now()) @updatedAt @db.Timestamptz(3)
-  deletedAt DateTime? @db.Timestamptz(3)
-
-  beneficiaryDonation          Donation[]
-
-  @@index([userId])
-}
-
 model Donation {
-  id                           String             @id @default(uuid())
-  name                         String
-  tags                         Tag[]
-  tagsIds                      String[]
-  imageUrls                    String[]
-  description                  String
+  id          String   @id @default(uuid())
+  name        String
+  tags        Tag[]
+  tagsIds     String[]
+  imageUrls   String[]
+  description String
   // if it doesn't expire we can set it to a far future date
-  expiry                       DateTime           @db.Timestamptz(3)
+  expiry      DateTime @db.Timestamptz(3)
   // quantity as string so donor can write the units, e.g. 1kg, 1L, 1 packet
-  quantity                     String
+  quantity    String
   // generated passcode for the beneficiary to claim the donation
-  passCode                     String?
+  passCode    String?
 
   // might need to consider what happens if beneficiary doesn't claim the donation but future implementation
 
-  donor                        Donor              @relation(fields: [donorId], references: [id])
-  donorId                      String
-  beneficiary                  Beneficiary?        @relation(fields: [beneficiaryId], references: [id])
-  beneficiaryId                String
+  donor         User    @relation(name: "DonationToDonor", fields: [donorId], references: [id])
+  donorId       String
+  beneficiary   User?   @relation(name: "DonationToBeneficiary", fields: [beneficiaryId], references: [id])
+  beneficiaryId String?
 
   // can consider storing name in vector for search so that it doesn't need to be recomputed
   // vector
@@ -104,7 +78,7 @@ model Donation {
 }
 
 model Tag {
-  id                           String             @id @default(uuid())
-  name                         String
-  donations                    Donation[]
+  id        String     @id @default(uuid())
+  name      String
+  donations Donation[]
 }

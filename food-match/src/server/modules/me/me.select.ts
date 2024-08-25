@@ -14,8 +14,6 @@ export const defaultMeSelect = Prisma.validator<
     | 'image'
     | 'name'
     | 'dob'
-    | 'beneficiary'
-    | 'donor'
     | 'mobile'
     | 'mobileVerified'
   >
@@ -26,8 +24,6 @@ export const defaultMeSelect = Prisma.validator<
   image: true,
   name: true,
   dob: true,
-  donor: true,
-  beneficiary: true,
   mobile: true,
   mobileVerified: true,
 })

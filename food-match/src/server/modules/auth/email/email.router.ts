@@ -45,6 +45,11 @@ export const emailSessionRouter = router({
             expires,
           },
         }),
+        console.log(
+          'logging code in case email not sent',
+          `${otpPrefix}-${token}`,
+          email,
+        ),
         sendMail({
           subject: `Sign in to ${url.host}`,
           body: `Your OTP is ${otpPrefix}-<b>${token}</b>. It will expire on ${formatInTimeZone(

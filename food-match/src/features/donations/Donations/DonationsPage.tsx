@@ -34,7 +34,7 @@ export const DonationsPage = () => {
 
   if (isLoading) {
     return (
-      <Stack p="6rem">
+      <Stack p={desktop ? '6rem' : '1.5rem'} pt="6rem">
         {/* Search inputs */}
         {/* Results of data pulled from Postgres */}
         <BeneficiarySearch
@@ -48,7 +48,7 @@ export const DonationsPage = () => {
     )
   }
   return (
-    <Stack p="6rem">
+    <Stack p={desktop ? '6rem' : '1.5rem'} pt="6rem">
       {/* Search inputs */}
       {/* Results of data pulled from Postgres */}
       <BeneficiarySearch

@@ -37,7 +37,7 @@ export const BeneficiarySearch = ({
     <Box w="100%">
       {/* Search Inputs */}
       <Stack w="100%" spacing={4}>
-        <HStack w="100%" gap={20}>
+        <HStack w="100%" gap="1rem">
           {/* TODO: Implement form */}
           <Input
             autoFocus

@@ -29,6 +29,7 @@ COPY .env .env.production
 RUN find . -name ".next" -type d -depth -exec rm -r {} \;
 
 ENV NEXT_TELEMETRY_DISABLED 1
+RUN pnpm prisma generate
 RUN CI=1 BUILD_MODE=1 NODE_OPTIONS=--max_old_space_size=4096 pnpm build
 
 # 3. Production image, copy all the files and run next

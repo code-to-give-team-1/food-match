@@ -80,7 +80,13 @@ export const Navbar = () => {
           <HStack spacing="1rem">
             <IconButton
               size={'md'}
-              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+              icon={
+                isOpen ? (
+                  <CloseIcon color="black" />
+                ) : (
+                  <HamburgerIcon color="black" />
+                )
+              }
               aria-label={'Open Menu'}
               display={desktop ? 'none' : ''}
               onClick={isOpen ? onClose : onOpen}
@@ -159,7 +165,7 @@ export const Navbar = () => {
       </Flex>
 
       {isOpen ? (
-        <Box display={desktop ? 'none' : ''}>
+        <Box display={desktop ? 'none' : ''} pb="1rem">
           <Stack as={'nav'}>
             {Links.map(({ name, href }) => (
               <NavLink key="name" name={name} href={href}></NavLink>

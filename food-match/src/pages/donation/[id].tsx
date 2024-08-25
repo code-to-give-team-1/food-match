@@ -17,11 +17,11 @@ const DonationItem = () => {
       <>
         <Navbar />
         {isLoading ? (
-          <DonationItemPage item={data} />
+          <Text>Loading...</Text>
         ) : error ? (
           <Text>Error: {error.message}</Text>
         ) : (
-          <Text>Loading...</Text>
+          <DonationItemPage item={data} />
         )}
       </>
     )

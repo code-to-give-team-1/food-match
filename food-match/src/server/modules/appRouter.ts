@@ -3,6 +3,7 @@ import { meRouter } from './me/me.router'
 import { authRouter } from './auth/auth.router'
 import { donationRouter } from './donation/donation.router'
 import { storageRouter } from './storage/storage.router'
+import { donorRouter } from './donation/donor.router'
 
 export const appRouter = router({
   userList: publicProcedure.query(async ({ ctx }) => {
@@ -14,6 +15,7 @@ export const appRouter = router({
   auth: authRouter,
   donation: donationRouter,
   storage: storageRouter,
+  donor: donorRouter,
 })
 
 // Export type router type signature,

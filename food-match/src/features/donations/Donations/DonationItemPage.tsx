@@ -17,6 +17,8 @@ import {
 } from '@chakra-ui/react'
 import { trpc, type RouterOutput } from '~/utils/trpc'
 import { useState } from 'react'
+import { useLoginState } from '~/features/auth'
+import { useRouter } from 'next/router'
 
 export type DonationItemType =
   | {
@@ -55,14 +57,17 @@ export const DonationItemPage = ({
     },
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { hasLoginStateFlag } = useLoginState()
+  const router = useRouter()
+  if (!hasLoginStateFlag) {
+    void router.push('/sign-in')
+  }
   // const desktop = false
   const formatISOString = (date: Date): string => {
     return (
       date.getUTCDate() + '/' + date.getUTCMonth() + '/' + date.getUTCFullYear()
     )
   }
-
-  console.log('item', item?.tags)
 
   if (item) {
     return (

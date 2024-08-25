@@ -15,6 +15,7 @@ import { trpc } from '~/utils/trpc'
 import { SingleDatepicker } from 'chakra-dayzed-datepicker'
 import { Navbar } from '~/features/common/components'
 import { useRouter } from 'next/router'
+import { useLoginState } from '~/features/auth'
 
 export const Profile = () => {
   const { me } = useMe()
@@ -48,6 +49,10 @@ export const Profile = () => {
       setError('name', { message: error.message })
     },
   })
+  const { hasLoginStateFlag } = useLoginState()
+  if (!hasLoginStateFlag) {
+    void router.push('/sign-in')
+  }
 
   const handleUpdate = handleSubmit((input) => {
     console.log(input)

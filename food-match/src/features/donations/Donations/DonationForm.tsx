@@ -14,6 +14,8 @@ import { useRouter } from 'next/router'
 import { useMe } from '~/features/me/api'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form'
+import { type z } from 'zod'
 
 export const DonationForm = () => {
   // Use Zod + React Hook Form to enforce error checking and submission
@@ -59,7 +61,21 @@ export const DonationForm = () => {
   // Abstracted form input
   // TODO: type validation
   const FormInput = React.memo(
-    ({ id, label, placeholder, register, errors, isRequired = false }: any) => (
+    ({
+      id,
+      label,
+      placeholder,
+      register,
+      errors,
+      isRequired = false,
+    }: {
+      id: keyof z.infer<typeof donationSchema>
+      label: string
+      placeholder: string
+      register: UseFormRegister<z.infer<typeof donationSchema>>
+      errors: FieldErrors<z.infer<typeof donationSchema>>
+      isRequired?: boolean
+    }) => (
       <FormControl id={id} isRequired={isRequired} isInvalid={!!errors[id]}>
         <FormLabel marginBottom="5px">{label}</FormLabel>
         <Input
@@ -75,6 +91,8 @@ export const DonationForm = () => {
       </FormControl>
     ),
   )
+
+  FormInput.displayName = 'FormInput'
 
   return (
     <form onSubmit={handleCreateDonation} noValidate>

@@ -2,8 +2,13 @@ import { Box, Button, HStack, Input, Select, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Search2Icon } from '@chakra-ui/icons'
 
-export const BeneficiarySearch = () => {
-  const [query, setQuery] = useState('')
+export const BeneficiarySearch = ({
+  query,
+  setQuery,
+}: {
+  query: string
+  setQuery: (query: string) => void
+}) => {
   const [preferences, setPreferences] = useState('')
 
   return (
@@ -45,9 +50,11 @@ export const BeneficiarySearch = () => {
         </Button>
       </HStack>
       {/* Search results from postgres */}
-      <Text marginBlock={10} fontSize={20}>
-        Search Result for ""
-      </Text>
+      {query && (
+        <Text marginBlock={10} fontSize={20}>
+          Search Result for &quot;{query}&quot;
+        </Text>
+      )}
       {/* TODO: Pull data from postgres in parent component and display number of results */}
       <Text marginBlock={10}>X results found</Text>
     </Box>

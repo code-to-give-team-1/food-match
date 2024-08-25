@@ -26,6 +26,37 @@ export const donationRouter = router({
     const donations = await ctx.prisma.donation.findMany()
     return donations
   }),
+  searchDonations: publicProcedure
+    .input(
+      z.object({
+        searchQuery: z.string(),
+        tags: z.array(z.string()),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { searchQuery, tags } = input
+
+      if (!searchQuery) {
+        // return all donations
+        if (tags.length) {
+          return ctx.prisma.donation.findMany({
+            where: {
+              tags: {
+                some: {
+                  name: {
+                    in: tags,
+                  },
+                },
+              },
+            },
+          })
+        }
+        return ctx.prisma.donation.findMany()
+      }
+
+      // call python service
+      return ctx.prisma.donation.findMany()
+    }),
   // Retrieve the details for a specific donation
   getDonation: publicProcedure
     .input(

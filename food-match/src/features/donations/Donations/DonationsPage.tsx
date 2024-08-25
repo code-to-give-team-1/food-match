@@ -10,16 +10,21 @@ import {
 import { BeneficiarySearch } from './BeneficiarySearch'
 import { useRouter } from 'next/router'
 import { trpc } from '~/utils/trpc'
+import { useState } from 'react'
 
 export const DonationsPage = () => {
+  const [query, setQuery] = useState('')
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const router = useRouter()
-  const [data] = trpc.donation.getAllDonations.useSuspenseQuery()
+  const [data] = trpc.donation.searchDonations.useSuspenseQuery({
+    searchQuery: query,
+    tags: [],
+  })
   return (
     <Stack p={20} gap={10}>
       {/* Search inputs */}
       {/* Results of data pulled from Postgres */}
-      <BeneficiarySearch />
+      <BeneficiarySearch query={query} setQuery={setQuery} />
       <Grid
         w={'100%'}
         templateColumns={desktop ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}
@@ -33,7 +38,7 @@ export const DonationsPage = () => {
                 borderRadius="15px"
                 overflow="hidden"
                 maxH={'300px'}
-                onClick={() => router.push(`/donation/${donation.name}`)}
+                onClick={() => router.push(`/donation/${donation.id}`)}
                 cursor={'pointer'}
               >
                 <Image

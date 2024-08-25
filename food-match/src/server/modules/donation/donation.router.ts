@@ -41,18 +41,12 @@ export const donationRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const { searchQuery, tags } = input
-
       if (!searchQuery) {
-        // return all donations
         if (tags.length) {
           return ctx.prisma.donation.findMany({
             where: {
-              tags: {
-                some: {
-                  name: {
-                    in: tags,
-                  },
-                },
+              tagsIds: {
+                hasSome: tags,
               },
             },
           })

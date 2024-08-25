@@ -11,20 +11,29 @@ import { BeneficiarySearch } from './BeneficiarySearch'
 import { useRouter } from 'next/router'
 import { trpc } from '~/utils/trpc'
 import { useState } from 'react'
+import { type Option } from 'chakra-multiselect'
 
 export const DonationsPage = () => {
-  const [query, setQuery] = useState('')
+  const [outerQuery, setOuterQuery] = useState('')
+  const [tags, setOuterTags] = useState<Option[]>([])
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const router = useRouter()
   const [data] = trpc.donation.searchDonations.useSuspenseQuery({
-    searchQuery: query,
-    tags: [],
+    searchQuery: outerQuery,
+    tags: tags
+      .filter((tag) => tag.value && typeof tag.value === 'string')
+      .map((tag) => (typeof tag.value === 'string' ? tag.value : '')),
   })
   return (
-    <Stack p={20} gap={10}>
+    <Stack p={20}>
       {/* Search inputs */}
       {/* Results of data pulled from Postgres */}
-      <BeneficiarySearch query={query} setQuery={setQuery} />
+      <BeneficiarySearch
+        setOuterQuery={setOuterQuery}
+        setOuterTags={setOuterTags}
+        count={data.length}
+        outerQuery={outerQuery}
+      />
       <Grid
         w={'100%'}
         templateColumns={desktop ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}

@@ -3,7 +3,7 @@ import { meRouter } from './me/me.router'
 import { authRouter } from './auth/auth.router'
 import { donationRouter } from './donation/donation.router'
 import { storageRouter } from './storage/storage.router'
-import { tagRouter } from './tag/tag.router'
+import { tagRouter } from './tags/tag.router'
 import { donorRouter } from './donation/donor.router'
 
 export const appRouter = router({

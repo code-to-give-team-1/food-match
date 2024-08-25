@@ -26,7 +26,7 @@ export const DonationsPage = () => {
       .map((tag) => (typeof tag.value === 'string' ? tag.value : '')),
   })
   return (
-    <Stack p={20}>
+    <Stack p="2rem">
       {/* Search inputs */}
       {/* Results of data pulled from Postgres */}
       <BeneficiarySearch
@@ -38,7 +38,7 @@ export const DonationsPage = () => {
       <Grid
         w={'100%'}
         templateColumns={desktop ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}
-        gap={20}
+        gap="2rem"
       >
         {data.map((donation, index) => {
           return (

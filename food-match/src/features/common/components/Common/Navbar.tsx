@@ -41,9 +41,7 @@ interface LinkProp {
 const NavLink = ({ name, href }: LinkProp) => {
   return (
     <Box
-      ml={20}
       as="a"
-      p={8}
       rounded={'md'}
       textDecoration={'none'}
       _hover={{
@@ -53,6 +51,8 @@ const NavLink = ({ name, href }: LinkProp) => {
       borderRadius={'10px'}
       href={href}
       color={'white'}
+      px="1rem"
+      py="0.5rem"
     >
       {name}
     </Box>
@@ -66,33 +66,51 @@ export const Navbar = () => {
   const router = useRouter()
 
   return (
-    <Box bg={'#191919'} color={'white'} p={20}>
+    <Box bg={'#191919'} color={'white'} px={desktop ? '2rem' : ''}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-        <IconButton
-          size={'md'}
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label={'Open Menu'}
-          display={desktop ? 'none' : ''}
-          onClick={isOpen ? onClose : onOpen}
-          color="white"
-          p={10}
-        />
+        {!desktop && (
+          <HStack spacing="1rem">
+            <IconButton
+              size={'md'}
+              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+              aria-label={'Open Menu'}
+              display={desktop ? 'none' : ''}
+              onClick={isOpen ? onClose : onOpen}
+              color="white"
+              ml="1rem"
+            />
+            <Image
+              src={'/images/main_page_logo.png'}
+              width={70}
+              height={25}
+              alt="Logo"
+              onClick={() => router.push('/home')}
+            />
+          </HStack>
+        )}
 
-        <HStack spacing={8} alignItems={'center'}>
-          <Image
-            src={'/images/main_page_logo.png'}
-            width={70}
-            height={25}
-            alt="Logo"
-            onClick={() => router.push('/home')}
-          />
-          <HStack as={'nav'} spacing={10} display={desktop ? 'flex' : 'none'}>
+        <HStack alignItems={'center'}>
+          {desktop && (
+            <Image
+              src={'/images/main_page_logo.png'}
+              width={70}
+              height={25}
+              alt="Logo"
+              onClick={() => router.push('/home')}
+            />
+          )}
+          <HStack
+            as={'nav'}
+            spacing="2rem"
+            pl="1rem"
+            display={desktop ? 'flex' : 'none'}
+          >
             {Links.map(({ name, href }) => (
               <NavLink key={name} name={name} href={href} />
             ))}
           </HStack>
         </HStack>
-        <Flex alignItems={'center'}>
+        <Flex alignItems={'center'} pr="1rem">
           <Menu>
             <MenuButton
               as={Button}
@@ -140,8 +158,8 @@ export const Navbar = () => {
       </Flex>
 
       {isOpen ? (
-        <Box pt={10} display={desktop ? 'none' : ''}>
-          <Stack as={'nav'} spacing={4}>
+        <Box display={desktop ? 'none' : ''}>
+          <Stack as={'nav'}>
             {Links.map(({ name, href }) => (
               <NavLink key="name" name={name} href={href}></NavLink>
             ))}

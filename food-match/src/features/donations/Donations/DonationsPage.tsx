@@ -4,6 +4,7 @@ import {
   Grid,
   GridItem,
   Image,
+  Skeleton,
   Stack,
   Text,
   useMediaQuery,
@@ -20,12 +21,32 @@ export const DonationsPage = () => {
   const [tags, setOuterTags] = useState<Option[]>([])
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const router = useRouter()
-  const [data] = trpc.donation.searchDonations.useSuspenseQuery({
+  const { data, isError, isLoading } = trpc.donation.searchDonations.useQuery({
     searchQuery: outerQuery,
     tags: tags
       .filter((tag) => tag.value && typeof tag.value === 'string')
       .map((tag) => (typeof tag.value === 'string' ? tag.value : '')),
   })
+
+  if (isError) {
+    return <div>Failed to load</div>
+  }
+
+  if (isLoading) {
+    return (
+      <Stack p="6rem">
+        {/* Search inputs */}
+        {/* Results of data pulled from Postgres */}
+        <BeneficiarySearch
+          setOuterQuery={setOuterQuery}
+          setOuterTags={setOuterTags}
+          count={-1}
+          outerQuery={outerQuery}
+        />
+        <Skeleton height="20rem" />
+      </Stack>
+    )
+  }
   return (
     <Stack p="6rem">
       {/* Search inputs */}

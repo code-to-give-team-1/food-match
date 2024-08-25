@@ -1,4 +1,12 @@
-import { Box, Button, HStack, Input, Stack, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { MultiSelect, type Option, useMultiSelect } from 'chakra-multiselect'
 import { useState, useMemo } from 'react'
@@ -75,7 +83,11 @@ export const BeneficiarySearch = ({
         </Text>
       )}
       {/* TODO: Pull data from postgres in parent component and display number of results */}
-      <Text my="1rem">{count} results found</Text>
+      {count > 0 ? (
+        <Text my="1rem">{count} results found</Text>
+      ) : (
+        <Skeleton height="20px" />
+      )}
     </Box>
   )
 }

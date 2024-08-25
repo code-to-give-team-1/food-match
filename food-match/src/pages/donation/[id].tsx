@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react'
 import { Navbar } from '~/features/common/components'
 
 const donationItem = () => {

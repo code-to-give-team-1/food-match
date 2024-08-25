@@ -17,8 +17,6 @@ import Image from 'next/image'
 import { HamburgerIcon, CloseIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import { useMe } from '~/features/me/api'
 import { useRouter } from 'next/router'
-import { useLoginState } from '~/features/auth'
-import { link } from 'fs'
 
 const Links: LinkProp[] = [
   {
@@ -145,7 +143,7 @@ export const Navbar = () => {
         <Box pt={10} display={desktop ? 'none' : ''}>
           <Stack as={'nav'} spacing={4}>
             {Links.map(({ name, href }) => (
-              <NavLink name={name} href={href}></NavLink>
+              <NavLink key="name" name={name} href={href}></NavLink>
             ))}
           </Stack>
         </Box>

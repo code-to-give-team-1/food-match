@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Select,
-  Stack,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Button, HStack, Input, Select, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Search2Icon } from '@chakra-ui/icons'
 

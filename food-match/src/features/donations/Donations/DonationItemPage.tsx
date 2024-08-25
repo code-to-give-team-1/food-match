@@ -1,0 +1,52 @@
+import { Box, HStack, Stack, Text } from '@chakra-ui/react'
+import Image from 'next/image'
+
+export type DonationItemType =
+  | {
+      id: string
+      name: string
+      tagsIds: string[]
+      imageUrls: string[]
+      description: string
+      expiry: Date
+      quantity: string
+      passCode: string | null
+      donorId: string
+      beneficiaryId: string | null
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }
+  | null
+  | undefined
+
+export const DonationItemPage = ({ item }: { item: DonationItemType }) => {
+  return item ? (
+    <HStack p={20} w={'100%'} align={'start'} gap={20}>
+      <Box border={'1px solid black'} borderRadius={'15px'} w={'30%'}>
+        <Image
+          src={`${
+            item.imageUrls.length > 0
+              ? '/images/' + item.imageUrls[0]
+              : '/images/placeholder.png'
+          }`}
+          width={400}
+          height={500}
+          alt="Item Image"
+          style={{ borderRadius: '15px' }}
+        />
+      </Box>
+      <Stack>
+        <Text as="b">{item.name}</Text>
+        <Text>Description: {item.description}</Text>
+        <Text>Quantity: {item.quantity}</Text>
+
+        <Text>Donor: {item.donorId}</Text>
+        <Text>Expiry: {item.expiry.toISOString()}</Text>
+        <Text>Created At: {item.createdAt.toISOString()}</Text>
+      </Stack>
+    </HStack>
+  ) : (
+    <Text>Item not found</Text>
+  )
+}

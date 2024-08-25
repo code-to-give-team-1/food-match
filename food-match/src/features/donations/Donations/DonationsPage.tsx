@@ -6,6 +6,7 @@ import {
   Stack,
   Text,
   useMediaQuery,
+  VStack,
 } from '@chakra-ui/react'
 import { BeneficiarySearch } from './BeneficiarySearch'
 import { useRouter } from 'next/router'
@@ -63,12 +64,12 @@ export const DonationsPage = () => {
                   objectFit="cover"
                   style={{ borderBottom: '1px solid black' }}
                 />
-                <Box p={4}>
-                  <Text fontWeight="bold" mb={2}>
+                <VStack p={10} align={'start'} justifyContent={'start'}>
+                  <Box fontWeight="bold" mb={2}>
                     {donation.name}
-                  </Text>
+                  </Box>
                   <Text>{donation.description}</Text>
-                </Box>
+                </VStack>
               </Box>
             </GridItem>
           )

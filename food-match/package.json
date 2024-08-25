@@ -5,6 +5,7 @@
   "scripts": {
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
+    "seed": "prisma db seed",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -15,6 +16,9 @@
   "prettier": {
     "singleQuote": true,
     "semi": false
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.485.0",
@@ -64,6 +68,7 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "6.18.1",
     "@typescript-eslint/parser": "6.18.1",
+    "tsx": "^4.7.0",
     "clean-webpack-plugin": "^4.0.0",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8",

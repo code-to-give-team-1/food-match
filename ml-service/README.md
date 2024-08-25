@@ -12,8 +12,8 @@ Please save all dependencies to requirements.txt using the following command:
 pip freeze > requirements.txt
 ```
 
-## Run the application
+## Running it
 
 ```
-python app.py
+flask run app.py
 ```

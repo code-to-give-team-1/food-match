@@ -1,7 +1,7 @@
-import { protectedProcedure, router } from '~/server/trpc'
+import { publicProcedure, router } from '~/server/trpc'
 
 export const tagRouter = router({
-  getAllTags: protectedProcedure.query(async ({ ctx }) => {
+  getAllTags: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.tag.findMany()
   }),
 })

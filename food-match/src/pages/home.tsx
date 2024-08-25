@@ -1,11 +1,11 @@
 import { Box } from '@chakra-ui/react'
-import { Navbar } from '~/features/common/components'
+import { UnauthedNavbar } from '~/features/common/components'
 import { DonationsPage } from '~/features/donations'
 
 const Home = () => {
   return (
     <Box m={0} w={'100%'}>
-      <Navbar />
+      <UnauthedNavbar />
       <DonationsPage />
     </Box>
   )

@@ -7,14 +7,14 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react'
-// TODO: Replace mock data with real data
-import { donationsData } from './mockData'
 import { BeneficiarySearch } from './BeneficiarySearch'
 import { useRouter } from 'next/router'
+import { trpc } from '~/utils/trpc'
 
 export const DonationsPage = () => {
   const [desktop] = useMediaQuery('(min-width: 600px)')
   const router = useRouter()
+  const [data] = trpc.donation.getAllDonations.useSuspenseQuery()
   return (
     <Stack p={20} gap={10}>
       {/* Search inputs */}
@@ -25,7 +25,7 @@ export const DonationsPage = () => {
         templateColumns={desktop ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}
         gap={20}
       >
-        {donationsData.map((donation, index) => {
+        {data.map((donation, index) => {
           return (
             <GridItem key={index} w={'100%'} h={'auto'}>
               <Box
